@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:m="http://www.w3.org/1998/Math/MathML">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  
+
+	<title id="eltitulo">Creador de Quices </title> 
+
+
+ <!-- esta es una version de boostrap pero con otros colores-->
+ 	
+	<link rel="stylesheet" href="jqmath-0.4.3.min.css"> <!--para jqmath-->
+	<link rel="stylesheet" href="mathgym.css"> <!--para mis formatos-->
+	<link rel='stylesheet' href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
+	<script src="jqmath-vanilla.min.js"></script><!--para jqmath-->
+</head>
+
+
+<body>
+	
+	<!-- nav es una navegacion y los parametros son los colores-->
+	<!-- LA BARRA DE ARRIBA ES COMO UN MENU-->
+	<nav class="navbar navbar-light bg-light">
+		<a href="/" class="navbar-brand">
+			Creador de Quices 
+		</a>
+<button type="button" id="importar" class="btn btn-dark">Importar desde local</button>
+	</nav>
+	<div class = "container"> <!-- PARA CENTRAR TODO-->
+
+		<!-- LA APLICACION-->
+		<div id = "App" class = "row pt-5">	
+			<div class="col-md-12">
+					<div class="card">
+						<div class="card-header" id="pizarra" >
+							<h4 id="lineaPregunta">Ingrese el nuevo Item: </h4>
+							<h5 id="lineaA"></h5>
+							<h5 id="lineaB"></h5>
+							<h5 id="lineaC"></h5>
+							<h5 id="lineaD"></h5>
+						</div>
+							<form id="formularioPregunta" class= "card-body">
+								<div class="form-group">
+									<p>Pregunta: </p><input type="text" id="Item" placeholder="Ingrese la Pregunta" class="form-control">
+								</div>
+								<div><p>Opciones: </p></div>
+								<div>
+									<input type="text" id="opt_A" placeholder="Ingrese Opcion A" class="form-control">
+								</div>
+    							<div class="form-check checkbox-warning-filled">
+      							<input tabindex="-1" type="checkbox" class="form-check-input filled-in" id="a_Correcta" checked>
+      							<label class="form-check-label " for="orangeExample" id="labelcheckbox_a">Respuesta Correcta </label>
+    							</div>
+						
+ 
+								<div >
+									<input type="text" id="opt_B" placeholder="Ingrese Opcion B" class="form-control">
+								</div>
+								    							<div class="form-check checkbox-warning-filled">
+      							<input tabindex="-1"type="checkbox" class="form-check-input filled-in" id="b_Correcta" unchecked>
+      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_b">...</label>
+    							</div>	
+
+								<div >
+									<input type="text" id="opt_C" placeholder="Ingrese Opcion C" class="form-control">
+								</div>
+								    							<div class="form-check checkbox-warning-filled">
+      							<input tabindex="-1"type="checkbox" class="form-check-input filled-in" id="c_Correcta" unchecked>
+      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_c">...</label>
+    							</div>
+								<div >
+									<input  type="text" id="opt_D" placeholder="Ingrese Opcion D" class="form-control">
+								</div>
+								<div class="form-check checkbox-warning-filled">
+      							<input tabindex="-1" type="checkbox" class="form-check-input filled-in" id="d_Correcta" unchecked>
+      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_d">...</label>
+    							</div>
+								<input type="submit" name="Guardar" class="btn btn-primary btn-block">
+
+
+							</form>
+						
+					</div> </div>
+			<div id="lista-preguntas" class="col-md-8">	</div>
+		</div>
+
+
+	</div>
+<script src="./App.js"></script>
+</body>
+</html> 
+
