@@ -95,18 +95,105 @@ class UI {
 					this.agregaPregunta(El_item);
 					jqMath.parseMath(document.body);
 
+
 				}
 
 
 			}
 	
+
+
+	recuperadeFirebase(basedeDatos){
+	this.Inicializapaquetededatos();	
+	let paquetededatos = 'oo'
+	console.log( "la base de datos antes de");
+	  console.log(basedeDatos);
+
+	var dbRef = firebase.database().ref();
+	dbRef.on('value', snap => paquetededatos = snap.val());
+	let casiBD;
+	console.log('el paquede de datos despues de traerselo de firebase quedo asi: ');
+	console.log(paquetededatos);
+	console.log ('conociendo mejor');
+	console.log(paquetededatos);
+	console.log(paquetededatos["item"]);
+	console.log(paquetededatos["item"].text);
+	casiBD = paquetededatos["item"].text;
+
+	// que tal si hago un push de los elementos para que los vaya agregando.
+//ui.agregaaBasedeDatos(El_item); 
+		var i;
+			for (i = 0; i < casiBD.length; i++) {
+ 					casiBD[i]
+ 					basedeDatos.push(casiBD[i]);
+				}
+
+
+
+
+
+
+
+
+	//basedeDatos.push(paquetededatos["item"].text);
+	//basedeDatos = paquetededatos["item"].text; // aqui la base de datos deberia tener lo mismo que antes de ir
+	this.agregaaLocalStorage(basedeDatos);
+	this.despliegadeDatos(basedeDatos);
+	console.log('acabo de ejecutar despliega datos');
+	//console.log('ahoralodificil');
+	//casiBD = paquetededatos["item"].text;
+	//console.log(casiBD);
+	//console.log('el primer valor');
+	//console.log(casiBD[0].pregunta);
+	//localStorage.setItem('preguntasquiz',  JSON.stringify(paquetededatos))	;
+	//basedeDatos = JSON.parse(paquetededatos);
+	//	console.log('Le hice un parse y asi quedo:');
+	//console.log(basedeDatos);
+
+
+	//this.agregaaLocalStorage(paquetededatos);
+	//basedeDatos = paquetededatos;
+	//console.log('yo asigne la paquete a la basede datos?')
+	//	 	console.log(basedeDatos);
+	//	 	console.log(' la DB con indice 1');
+	//	 	console.log(basedeDatos[1]);
+
+	//	console.log('esta deberia ser igual a la anterior')
+	//	 	console.log(paquetededatos);
+		 	
+//
+	}
 	
+	Inicializapaquetededatos(){ // no se por que hay que correr esto antes de jalar el firebase
+	let paquetededatos = "estoy vivo";
+	var dbRef = firebase.database().ref(); // inicializando firebase talvez. 
+	dbRef.on('value', snap => paquetededatos = snap.val());
+
+//
+}
 
 
 	agregaaLocalStorage(basedeDatos){
+	let paquetededatos = JSON.stringify(basedeDatos);
+	// let paquetededatos;
+	console.log('la verdad no quiero que pase por aca')
+	console.log(paquetededatos);
 	localStorage.setItem('preguntasquiz',  JSON.stringify(basedeDatos))	;
 
-			}
+	paquetededatos = ' limpio'
+	console.log( "la base de datos antes de");
+	  console.log(basedeDatos);
+
+	//var dbRef = firebase.database().ref(); // inicializando firebase talvez. 
+	//dbRef.on('value', snap => paquetededatos = snap.val());
+	//console.log('sera que donde lo esta importando es de aqui... y por que que raro');
+	//console.log(paquetededatos);
+	
+	//console.log('nuevosdatos');
+	//console.log(paquetededatos);
+//
+}
+
 
 	resetFormulario(){
 		document.getElementById('formularioPregunta').reset();
@@ -192,9 +279,6 @@ class UI {
 		//estoy revisando si los checkboxes estan marcados para pasarle el icono a la pizzarra
 
 
-console.log('revisemos este paso la respuesta correcta esta en');
-console.log(linea.checked);
-
 		linea = document.querySelector('#Item');
 		let textoIngresado = linea.value;
 		let textoaMostrar = document.querySelector('#lineaPregunta');
@@ -241,6 +325,17 @@ console.log(linea.checked);
 	}
 
  
+	importadeLocalStorage(){
+		
+		var itemsguardados = localStorage.getItem('preguntasquiz');
+				if(itemsguardados == null){
+					basedeDatos = [];
+				}else{ 	basedeDatos = JSON.parse(itemsguardados);
+					 }	
+				const ui = new UI(); ui.despliegadeDatos(basedeDatos);
+
+	};
+
 
 
 	cambiaCheckbox(seleccionada){
@@ -273,6 +368,7 @@ console.log(linea.checked);
 // antes del click aqui estoy, las variables que necesite fuera de los eventos del DOM por ejemplo la BD.
 
 	basedeDatos = [];
+	const ui = new UI(); ui.Inicializapaquetededatos(); // esto lo que hace es inicializar la base de datos
 	let rcorrecta = 'a'; // inicializo la respuesta correcta por defecto
 
 
@@ -338,6 +434,43 @@ let checkboxseleccionado = document.querySelector('#a_Correcta'); checkboxselecc
 													// Revisando CheckBox c
 
 
+		document.getElementById('firebasebtnsave').addEventListener('click' , function(e){
+			 // aqui vamos a ejecutar el exportar a firebase
+			 console.log('esta es la base de datos en este punto 666');
+			 console.log(basedeDatos);
+			 	 let paquetededatos = basedeDatos;
+	  			 firebase.database().ref('item').set({text: paquetededatos})
+
+			});
+
+		document.getElementById('firebasebtnload').addEventListener('click' , function(e){
+		 // aqui vamos a ejecutar el importe 
+			const ui = new UI();
+			console.log('presione el boton y corri la funcion recupera firebase');
+		 	ui.recuperadeFirebase(basedeDatos)
+		 	//console.log('Despues de la funcion recupera de Firebase la base de datos quedo asi:')
+		 	//console.log(basedeDatos);
+		 	
+		 	//ui.despliegadeDatos(basedeDatos);
+		 });
+			
+			//jala desde localStorage y lo guarda en BasedeDatos
+			//esto deberia estar en un metodo pero lo hecemos despues 
+
+			// Initialize Firebase
+ 			//	 firebase.initializeApp(firebaseConfig);
+ 			
+	  		//	 firebase.initializeApp(firebaseConfig);
+ 			//firebasebtnload
+ 				 
+
+					
+				
+					
+		// ahora quiero que ese basedeDatos se despliegue en pantalla debo usar una funcion ui
+
+		
+
 
 
 
@@ -349,24 +482,22 @@ let checkboxseleccionado = document.querySelector('#a_Correcta'); checkboxselecc
 
 // yo quiero hacer lo mismo pero desde el otro click el de importar
 		document.getElementById('importar').addEventListener('click' , function(e){
+			var itemsguardados = localStorage.getItem('preguntasquiz');
+				if(itemsguardados == null){
+					basedeDatos = [];
+				}else{ 	basedeDatos = JSON.parse(itemsguardados);
+					 }	
+				const ui = new UI(); ui.despliegadeDatos(basedeDatos); })
 			 // aqui vamos a ejecutar el importe 
 
 			
 			//jala desde localStorage y lo guarda en BasedeDatos
 			//esto deberia estar en un metodo pero lo hecemos despues 
 
-			var itemsguardados = localStorage.getItem('preguntasquiz');
-				if(itemsguardados == null){
-					basedeDatos = [];
-				}else{
-					basedeDatos = JSON.parse(itemsguardados);
-					
-				
-				}	
+
 		// ahora quiero que ese basedeDatos se despliegue en pantalla debo usar una funcion ui
 
-		const ui = new UI();
-		ui.despliegadeDatos(basedeDatos); })
+		
 
 
 // ok esto es un evento de click en submit y este puede llamar a el item por primera vez
@@ -400,6 +531,7 @@ console.log("la respuesta correcta es " + rcorrecta);
 	ui.agregaPregunta(El_item);				//ui.agregaaBasedeDatos();
 	ui.resetFormulario(); 					// limpia el formulario
 	ui.agregaaBasedeDatos(El_item); 		// ahora vamos a poner esto en una base de datos local
+	
 	ui.agregaaLocalStorage(basedeDatos); 	// y por ultimo lo voy a guardar en un local storage
 	ui.muestraMensaje('Se Agregó corectamente', 'success'); 
 	jqMath.parseMath(document.body); // refresca notacion matematica
