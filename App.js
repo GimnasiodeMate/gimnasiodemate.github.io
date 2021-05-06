@@ -2,6 +2,7 @@
 
 // aqui van las clases, la primera es la clase item o pregunta
 
+
 class Item {
 	constructor(pregunta, opt1, opt2, opt3, opt4, correcta, llave){
 		this.pregunta = pregunta;

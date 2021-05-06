@@ -21,6 +21,11 @@
 
 
 <body>
+
+				
+
+
+
 	
 	<!-- nav es una navegacion y los parametros son los colores-->
 	<!-- LA BARRA DE ARRIBA ES COMO UN MENU-->
@@ -87,10 +92,41 @@
 					</div> </div>
 			<div id="lista-preguntas" class="col-md-8">	</div>
 		</div>
-
+		<h1 id="bigOne">aqui es</h1>
 
 	</div>
 <script src="./App.js"></script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+
+				<!-- TODO: Add SDKs for Firebase products that you want to use
+     			https://firebase.google.com/docs/web/setup#available-libraries -->
+				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+
+				<script>
+  				// Your web app's Firebase configuration
+ 				 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+   				var firebaseConfig = {
+     				apiKey: "AIzaSyAIdiDUBAq0HKoFfsvrxWqsAXJiABgjgnU",
+     				authDomain: "gimnasiodemate-50e36.firebaseapp.com",
+     				projectId: "gimnasiodemate-50e36",
+     				storageBucket: "gimnasiodemate-50e36.appspot.com",
+    				 messagingSenderId: "456498180157",
+     				appId: "1:456498180157:web:6aa34ff2f58d1e2de5fa54",
+    				 measurementId: "G-TP129WMSCV"
+  				 };
+   				// Initialize Firebase
+  				 firebase.initializeApp(firebaseConfig);
+  				 var bigOne = document.getElementById('bigOne');
+  				 var dbRef = firebase.database().ref().child('text');
+  				 dbRef.on('value', snap => bigOne.innerText = snap.val());
+ 				</script>
+
+
+
+
 </body>
 </html> 
 
