@@ -1,4 +1,4 @@
-
+	
 
 // aqui van las clases, la primera es la clase item o pregunta
 
@@ -184,14 +184,7 @@ class UI {
 	console.log( "la base de datos antes de");
 	  console.log(basedeDatos);
 
-	//var dbRef = firebase.database().ref(); // inicializando firebase talvez. 
-	//dbRef.on('value', snap => paquetededatos = snap.val());
-	//console.log('sera que donde lo esta importando es de aqui... y por que que raro');
-	//console.log(paquetededatos);
-	
-	//console.log('nuevosdatos');
-	//console.log(paquetededatos);
-//
+
 }
 
 
