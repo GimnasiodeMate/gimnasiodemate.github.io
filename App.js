@@ -753,7 +753,7 @@ document.getElementById('btn_Opt_D').addEventListener('click' , function(e){
 
 "use strict";
 
-fetch("https://github.com/GimnasiodeMate/gimnasiodemate.github.io/blob/main/csvjson.json")
+fetch("/.csvjson.json")
 .then(function(resp){
 	return resp.json();
 })
