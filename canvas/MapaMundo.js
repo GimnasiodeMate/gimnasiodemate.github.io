@@ -67,37 +67,32 @@ class Numero{
 				this.transformese(); 
 				this.agujeronegro();
 				this.posicionar()
-				if (estaCerca(this.x,this.y,ecuacionIZQ.x,ecuacionIZQ.y,50,0,100) && !this.fusionado)
-					{this.fusionese('eq_IZ');}
-				if (estaCerca(this.x,this.y,ecuacionDER.x,ecuacionDER.y,50,0,100) && !this.fusionado)
-					{this.fusionese('eq_DR');}
+				// if (estaCerca(this.x,this.y,ecuacionIZQ.x,ecuacionIZQ.y,50,0,100) && !this.fusionado)
+				// 	{this.fusionese('eq_IZ');}
+				// if (estaCerca(this.x,this.y,ecuacionDER.x,ecuacionDER.y,50,0,100) && !this.fusionado)
+				// 	{this.fusionese('eq_DR');}
 	}
 
 	dibujar() {	
-	ctx.font = '20px serif';
+	ctx.font = '50px serif';
 	ctx.fillStyle = '#ccc';
 	ctx.fillText(this.simbolo + this.val, this.x, this.y);
 	}
 
+	
+	agarrado(xi,yi){
+			//agarre el numero mensajero
+			console.log('entramos aqui'); console.log(this.val);
+			this.estaagarrado=true;
+			this.update();
+			this.dibujar();
+			console.log(this.simbolo + this.val);
+			console.log('lo dibuje');
+			this.drag=true;
+			this.x = this.MouseX;
+			this.y = this.MouseY; 
 
-	arranca(){
-		let posicion_de_arrancado =0;
-		arr_Numeros[19] = arr_Numeros[posicion_de_arrancado];// (este)
-		for (var i=posicion_de_arrancado; i<4; i++){arr_Numeros[i] = arr_Numeros[i+1]
-
-		//;arr_Numeros[1] = arr_Numeros[2];arr_Numeros[2] = arr_Numeros[3];arr_Numeros[3] = arr_Numeros[4];
-		
-		arr_Numeros[19].dibujar();
-		ecuacionIZQ.reset();
-		ecuacionIZQ.lleno=false;
-		//muevo el arreglo hacia el frente
-	}}
-
-	agarrado(xi,yi,largo){
-
-			if (largo == 1);
-			//si el largo del la ecuacion es 2 las posiciones en x son  x =251; y = 290;
-
+			
 			
 
 

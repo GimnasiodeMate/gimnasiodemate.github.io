@@ -18,8 +18,7 @@ canvas.addEventListener('click', (event) => {
 	const yi = event.clientY - rect.top;
 	//numero.click(xi,yi);	
 	boton.Clicked(xi,yi);
-	ecuacionIZQ.atrapar_elemento(xi,yi);
-	ecuacionDER.atrapar_elemento(xi,yi);
+	
 	
 	for(var j=0; j<arreglodeFrutas.length; j++) {arreglodeFrutas[j].Clicked(xi,yi);}	
 });
@@ -31,8 +30,9 @@ canvas.addEventListener('mousedown', (event) => { // MOUSEDOWN
 	const xi = event.clientX - rect.left;
 	const yi = event.clientY - rect.top;
 	
-
-	//numero.agarrado(xi,yi); 
+	ecuacionIZQ.atrapar_elemento(xi,yi);
+	ecuacionDER.atrapar_elemento(xi,yi);
+	Numero_mensajero.agarrado(xi,yi); 
 	//numero2.agarrado(xi,yi);
 		// for(var j=0; j<arr_Numeros.length; j++){
 		// 									arr_Numeros[j].agarrado(xi,yi);}
@@ -43,6 +43,7 @@ canvas.addEventListener('mousemove', (event) => { //MOUSEMOVE
 	const rect = canvas.getBoundingClientRect(); //queremos que nos indique donde esta el canvas con respecto a la pagina
 	const xi = event.clientX - rect.left;
 	const yi = event.clientY - rect.top;
+	Numero_mensajero.mousetracker(xi,yi); 
 	//numero.mousetracker(xi,yi); numero2.mousetracker(xi,yi);
 	for(var j=0; j<arr_Numeros.length; j++){
 											arr_Numeros[j].mousetracker(xi,yi);}
@@ -100,7 +101,7 @@ function animate(){
 											arr_Numeros[j].update();}
 	
 
-
+ 	 Numero_mensajero.update();Numero_mensajero.dibujar();
 	 ecuacionIZQ.update();ecuacionIZQ.dibujar();
 	 ecuacionDER.update();ecuacionDER.dibujar();
 	portal.dibujar();
