@@ -6,271 +6,213 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  
+
 
 	<title id="eltitulo">Gimnasio de Mate!</title> 
-<link rel="stylesheet" href="style.css">
-<!--<script src="https://kit.fontawesome.com/a076d05399.js"></script>-->
+	<link rel="stylesheet" href="style.css">
+	<!--<script src="https://kit.fontawesome.com/a076d05399.js"></script>-->
 
- <!-- esta es una version de boostrap pero con otros colores-->
- 	
- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
- 	 <!--este de arriba es intentando linkear la hoja de googlesheets ^^^^^-->
+	<!-- esta es una version de boostrap pero con otros colores-->
 
- 	 
-	<link rel="stylesheet" href="jqmath-0.4.3.min.css"> <!--para jqmath-->
-	<link rel="stylesheet" href="mathgym.css"> <!--para mis formatos-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!--este de arriba es intentando linkear la hoja de googlesheets ^^^^^-->
+
+
+	<link rel="stylesheet" href="./libs/jqmath-0.4.3.min.css"> <!--para jqmath-->
 	<link rel='stylesheet' href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
-	<script src="jqmath-vanilla.min.js"></script><!--para jqmath-->
+	<script src="./libs/jqmath-vanilla.min.js"></script><!--para jqmath-->
 </head>
 
 
 <body>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
 
 				<!-- TODO: Add SDKs for Firebase products that you want to use
-     			https://firebase.google.com/docs/web/setup#available-libraries -->
-				<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+					https://firebase.google.com/docs/web/setup#available-libraries -->
+					<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
 
-				<script>
+					<script>
   				// Your web app's Firebase configuration
  				 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-   				var firebaseConfig = {
-     				apiKey: "AIzaSyAIdiDUBAq0HKoFfsvrxWqsAXJiABgjgnU",
-     				authDomain: "gimnasiodemate-50e36.firebaseapp.com",
-     				projectId: "gimnasiodemate-50e36",
-     				storageBucket: "gimnasiodemate-50e36.appspot.com",
-    				 messagingSenderId: "456498180157",
-     				appId: "1:456498180157:web:6aa34ff2f58d1e2de5fa54",
-    				 measurementId: "G-TP129WMSCV"
-  				 };
+ 				 var firebaseConfig = {
+ 				 	apiKey: "AIzaSyAIdiDUBAq0HKoFfsvrxWqsAXJiABgjgnU",
+ 				 	authDomain: "gimnasiodemate-50e36.firebaseapp.com",
+ 				 	projectId: "gimnasiodemate-50e36",
+ 				 	storageBucket: "gimnasiodemate-50e36.appspot.com",
+ 				 	messagingSenderId: "456498180157",
+ 				 	appId: "1:456498180157:web:6aa34ff2f58d1e2de5fa54",
+ 				 	measurementId: "G-TP129WMSCV"
+ 				 };
    				// Initialize Firebase
- 				 firebase.initializeApp(firebaseConfig);
+   				firebase.initializeApp(firebaseConfig);
 
 
-  				// var bigOne = document.getElementById('bigOne');
-  				//var dbRef = firebase.database().ref();
-  				// dbRef.on('value', snap => bigOne.innerText = snap.val());
-  				// firebase.database().ref('text').set({text:'siiiiii'})
- 				</script>
-				
 
-	
-	<!-- nav es una navegacion y los parametros son los colores-->
-	<!-- LA BARRA DE ARRIBA ES COMO UN MENU-->
-	<nav class="navbar navbar-light bg-light">
-		<a href="/" class="navbar-brand">
-			Creador de Quices 
-		</a>
-			<button type="button" id="importar" class="btn btn-dark">Importar desde local</button>
-			<button type="button" id="firebasebtnsave" class="btn btn-warning">guarda a firebase</button>
-			<button type="button" id="firebasebtnload" class="btn btn-info">carga de firebase</button>
-			<button type="button" id="btnCreaQuices" class="btn btn-info">editar</button>
-	</nav>
-	
-	<div class = "container"> <!-- PARA CENTRAR TODO-->
+   			</script>
+<canvas id="canvas1"></canvas>
+<div id="canvas-container">
 
-		<!-- LA APLICACION CREA QUICES-->
-		<div id = "AppEditor" class = "row pt-5" >	
-			<div class="col-md-12">
-					<div id ="tarjeta" class="card">
-						<div class="card-header" id="pizarra" >
-							<h4 id="lineaPregunta">Ingrese el nuevo Item: </h4>
-							<h5 id="lineaA"></h5>
-							<h5 id="lineaB"></h5>
-							<h5 id="lineaC"></h5>
-							<h5 id="lineaD"></h5>
-						</div>
-							<form id="formularioPregunta" class= "card-body">
-								<div class="form-group">
-									<p>Pregunta: </p><input type="text" id="Item" placeholder="Ingrese la Pregunta" class="form-control">
-								</div>
-								<div><p>Opciones: </p></div>
-								<div>
-									<input type="text" id="opt_A" placeholder="Ingrese Opcion A" class="form-control">
-								</div>
-    							<div class="form-check checkbox-warning-filled">
-      							<input tabindex="-1" type="checkbox" class="form-check-input filled-in" id="a_Correcta" checked>
-      							<label class="form-check-label " for="orangeExample" id="labelcheckbox_a">Respuesta Correcta </label>
-    							</div>
-						
- 
-								<div >
-									<input type="text" id="opt_B" placeholder="Ingrese Opcion B" class="form-control">
-								</div>
-								    							<div class="form-check checkbox-warning-filled">
-      							<input tabindex="-1"type="checkbox" class="form-check-input filled-in" id="b_Correcta" unchecked>
-      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_b">...</label>
-    							</div>	
-
-								<div >
-									<input type="text" id="opt_C" placeholder="Ingrese Opcion C" class="form-control">
-								</div>
-								    							<div class="form-check checkbox-warning-filled">
-      							<input tabindex="-1"type="checkbox" class="form-check-input filled-in" id="c_Correcta" unchecked>
-      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_c">...</label>
-    							</div>
-								<div >
-									<input  type="text" id="opt_D" placeholder="Ingrese Opcion D" class="form-control">
-								</div>
-								<div class="form-check checkbox-warning-filled">
-      							<input tabindex="-1" type="checkbox" class="form-check-input filled-in" id="d_Correcta" unchecked>
-      							<label class="form-check-label" for="orangeExample" id="labelcheckbox_d">...</label>
-    							</div>
-								<input type="submit" name="Guardar" class="btn btn-primary btn-block">
+</div>
 
 
-							</form>
-						
-					</div> </div>
+   			<!-- nav es una navegacion y los parametros son los colores-->
+   			<!-- LA BARRA DE ARRIBA ES COMO UN MENU-->
+   			<nav class="navbar navbar-light bg-light">
+   				<a href="/" class="navbar-brand">
+   					Gimnasio de Mate! 
+   				</a>
+   				<button type="button" id="importar" class="btn btn-dark">Importar desde local</button>
+   				<button type="button" id="firebasebtnsave" class="btn btn-warning">guarda a firebase</button>
+   				<button type="button" id="firebasebtnload" class="btn btn-info">carga de firebase</button>
+   				<button type="button" id="btnCreaQuices" class="btn btn-info">editar</button>
+   			</nav>
 
 
-	<div id="contenedordeQuices" class = "container"> <!-- PARA CENTRAR TODO-->
 
-		<!-- ESTE ES EL QUIZ-->
-		<div id = "divItem" class = "row pt-5" >	
-			<div class="col-md-12">
-					<div class="card">
-						<!-- quiero tener varias opciones de respuestas-->
-						<div class="card-header" id="preguntaActual" >
-							<p id="cuadro_dialogo">Resolvé este ejercicio:</p>
-							<img id="imagenespreguntas" src = "./imgs/cangrejo.svg" alt="cangrejito"/>
 
-							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600">
-  <defs>
-    <linearGradient id="liquidGrad" x1="557" y1="150" x2="557" y2="546" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FF0909"/>
-      <stop offset="0.2" stop-color="#F3481A"/>
-      <stop offset="0.5" stop-color="#FABA2C"/>
-      <stop offset="1" stop-color="#00BCF2"/>
-    </linearGradient>
-<rect id="tube" x="357" y="150" width="86" height="400" rx="43" ry="43"/>   
-    <clipPath id="liquidMask">
-        <use xlink:href="#tube" class="liquidMask" />
-    </clipPath>
-   <clipPath id="tubeMask">
-        <use xlink:href="#tube" class="liquidMask" />
-    </clipPath>
-   <path id="liquid" d="M757,552v490H357V552c50,0,50,20,100,20s50-20,100-20,50,20,100,20S707,552,757,552Z" />
-<mask id="gradMask">   
+   				<div id="contenedordeQuices" class = "container"> <!-- PARA CENTRAR TODO-->
 
-      <use xlink:href="#liquid" class="liquid" x="0" fill="#FCEFD6" />
-      <use xlink:href="#liquid" class="liquid" x="0" fill="#EEE" opacity="0.7"/>
- 
-    </mask>
-  </defs>
-  
-  
-    <g class="whole" transform="translate(0, -40)">
+   					<!-- ESTE ES EL QUIZ-->
+   					<div id = "divItem" class = "row pt-5 ";>
+   						<div class="col-md-12">
+   							<div id="Tarjeta-Items" class="card" style="display:none">
+   							  	<div class="card-header cuadroQuiz" id="preguntaActual " >
+   									<p id="cuadro_dialogo">Resolvé este ejercicio:</p>
+   								</div>
 
-           <use xlink:href="#tube" class="tubeBg" fill="#C8D9D3" opacity="0.61"/>
-   
-      <g class="dragger" transform="translate(-6, 0)">
-        <circle cx="294" cy="540" r="36" fill="#3A3335"/>
-        <path class="dragTip" d="M315.5,556.76,299.24,540.5l16.26-16.26,36.26,16.26Z" fill="#3A3335"/>
-        <text class="label" x="294" y="551">100</text>
-<!--  <path id="dragShine" d="M330,540c-26,2-18-44-72,0a36,36,0,0,1,72,0Z" fill="#E9E9E9" opacity="0.052"/>    -->    
-      </g>       
-     
-    
- <g mask="url(#gradMask)">
-        <use xlink:href="#tube" fill="url(#liquidGrad)" />
-  </g>
-  <line class="tubeShine" x1="371" y1="200" x2="371" y2="443" fill="none" stroke="#FFF" stroke-linecap="round" stroke-miterlimit="10" stroke-width="8" opacity="0.21" stroke-dasharray="153 30" stroke-dashoffset="-20"/>
- <!--        <text class="tubeLabel" x="400" y="180">100°</text>
-        <text class="tubeLabel" x="400" y="356">50°</text>
-        <text class="tubeLabel" x="400" y="540">0°</text> -->
-      <g class="measurements" fill="none" stroke="#FCEFD6" stroke-width="3" stroke-linecap="round" opacity="1">
-        <line x1="358" y1="196" x2="370" y2="196" />
-        <line x1="358" y1="234" x2="370" y2="234" />
-        <line x1="358" y1="273" x2="370" y2="273" />
-        <line x1="358" y1="311" x2="370" y2="311" />
-        <line x1="358" y1="350" x2="370" y2="350" />
-        <line x1="358" y1="388" x2="370" y2="388" />
-        <line x1="358" y1="426" x2="370" y2="426" />
-        <line x1="358" y1="465" x2="370" y2="465" />
-        <line x1="358" y1="503" x2="370" y2="503" />
-      </g>
-     
-<!--  <rect class="tubeShine" x="372" y="162" width="56" height="364.02" rx="31.5" ry="31.5" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="8" stroke-linecap="round" stroke-dasharray="15 30" opacity="0.31"/> -->
-  <circle class="follower" cx="400" cy="540" r="0" fill="#62B6CB" fill-opacity="1" stroke="#FCEFD6" stroke-width="0"/>
-
-     
- 
-     
- </g>   
-</svg>
+   										<!-- quiero tener varias opciones de respuestas-->
+   								<!-- OPCIONES DE TEXTO FORMULARIO-->
+   								
+   								<!-- 1. formulario con dos columnas para fracciones-->
+								<form id="formulario_dos_columnas_fracciones">
+									<div class="row">
+									    <div class="col">
+									      <div id="div_pregunta_fracciones" class="form-group dondePregunto">
+												<p   >$5/4 + 6/5 + 1/8 =$  </p>
+										   </div>
+									    </div>
+									    <!--  en la segunda columna las respuestas -->
+									    <div class="col">	
+									    	<div class="form-row" >
+									      		<div id='numerador' style="display:block">
+													<input type="text"  id="numerador_escrito"   name="csc" placeholder="" class ="RespEscrita">
+									    		</div>
+											</div>
+											<div class="form-row" >	<svg class="lineaFraccion" height="1" width="100">
+  											<line x1="0" y1="0" x2="50" y2="0" style="stroke:rgb(0,0,0);stroke-width:5" />
+ 											</svg> </div> <!--para dibujar la linea de fraccionaria-->
+											<div class="form-row" >
+									      		<div id='denominador'  style="display:block">
+													<input  type="text" id="denominador_escrito" name="cc" autocomplete="off"  placeholder="" class ="RespEscrita">
+									    		</div>
+									    	</div>
+									    </div>
+									</div>							 		
+								</form>
 
 
 
 
 
-							
-						</div>
-							<form  class= "card-body">
-								<div id="DondePregunta" class="form-group dondePregunto">
-									<p   >$5/4 + 6/5 + 1/8 =$ </p>
-									<!-- quiero tener varias opciones de respuestas-->
-								</div>
-									<!-- respuesta escrita en texto-->
-									<input type="text" id="respuestaEscrita" placeholder="ingresá tu respuesta" class=" respuestaEscrita form-control " >
-									<!-- respuesta en botones-->
-									<div id="botones_respuestas" class="cuadrobotones">
-										<button id="btn_Opt_A" type="button" class="btn btn-outline-secondary btn-block text-left">a) $5/7$</button>
-										<button id="btn_Opt_B" type="button" class="btn btn-outline-secondary btn-block text-left">b) $9/2$</button>
-										<button id="btn_Opt_C" type="button" class="btn btn-outline-secondary btn-block text-left">c) $5/7$</button>
-										<button id="btn_Opt_D" type="button" class="btn btn-outline-secondary btn-block text-left">d) $2/5$</button>
+								<!-- 2. formulario con dos columnas para r_texto-->
+								<form id="formulario_dos_columnas_texto">
+									<div class="row">
+									    <div class="col">
+									      <div id="div_pregunta_texto" class="form-group dondePregunto">
+												<p   >$5/4 + 6/5 + 1/8 =$  </p>
+										   </div>
+									    </div>
+									    <!--  en la segunda columna las respuestas -->
+									    <div class="col">
+									    		<input  type="text" id="respuesta_escrita" name="cc" autocomplete="off"  placeholder="" class ="respuesta_escrita">
+										</div>
+									</div>													 		
+								</form>
 
-									
-											<div class="barraMarcador">
-  												<div class="barraMarcador-value">65%</div>
-  												<div id="llenadoMarcador" class="barraMarcador-fill"></div>
-  											</div>
+
+
+								<!-- 3. formulario con dos columnas para imagenes-->
+								<form id="formulario_dos_columnas_imagen">
+									<div class="row">
+									    <div class="col">
+									      <div id="div_pregunta_imagenes" class="form-group dondePregunto">
+												<p   >$5/4 + 6/5 + 1/8 =$  </p>
+										   </div>
+									    </div>
+									    <!--  en la segunda columna la imagen para opcion unica-->
+									    <div class="col">
+									    	<div id="espacio_para_imgen" class="form-group dondePregunto">
+												<img class='img_pregunta' src="./imgs/Portada.png" alt="Gimnasio de Mate!">
+										   </div>
+										</div>
+									</div>													 		
+								</form>
+								
+
+								<!-- 4. formulario sin columnas para  opcion unica-->	
+								<form id="formulario_solo_pregunta">
+									   <div id="div_pregunta_simple" class="form-group dondePregunto">
+												<p   >$5/4 + 6/5 + 1/8 =$  </p>
 									</div>
+								</form>
+															
+									<!-- respuesta escrita en texto-->
+									
+								<button id="btn_Enviar" type="button" class="btn btn-info btn-block text-center">Enviar</button>
 
-							
-
-
-
+							</div><!-- tarjeta items, dodne estan todas las opciones de pregunta-->
+							<!-- respuesta en botones-->
+							<div id="botones_respuestas" class="cuadrobotones" style="display:none">
+								<button id="btn_Opt_A" type="button" class="btn btn-outline-secondary btn-block text-left">a) $5/7$</button>
+								<button id="btn_Opt_B" type="button" class="btn btn-outline-secondary btn-block text-left">b) $9/2$</button>
+								<button id="btn_Opt_C" type="button" class="btn btn-outline-secondary btn-block text-left">c) $5/7$</button>
+								<button id="btn_Opt_D" type="button" class="btn btn-outline-secondary btn-block text-left">d) $2/5$</button>
 		
-								<input type="submit" value="Enviar" id="Guardar" class="btn btn-primary btn-block botonenviar">
-								<button type="button" id="cambiaVista" class="btn btn-info">switch</button>
+							</div>
+							<!-- la barra marcador siempre esta visible en los quices-->
+
+
+							<div id="barraMarcador" class="barraMarcador" style="display:none">
+								<div class="barraMarcador-value">65%</div>
+								<div id="llenadoMarcador" class="barraMarcador-fill"></div>
+							</div>
+								</form>
+							</div> <!--card-->
+								<div id='portada' >
+												<img class='portada' src="./imgs/Portada.png" alt="Gimnasio de Mate!">
+
+												<button type="button" id="iniciaquiz" class="btn btn-warning btn-block" btn-block>Comenzar a Entrenar!</button>
 								</div>
-								<button type="button" id="iniciaquiz" class="btn btn-dark btn-block" btn-block>Iniciar</button>
-								</div>
+						</div>
+					</div> <!--DivItem-->
 
-
-							</form>
-						
-					</div> </div>
-
-	<!-- AQUI SE MUESTRAN LAS PREGUNTAS DEL QUIZ CUANDO LAS ESTOY CREANDO Y EDITANDO -->
+			<!-- AQUI SE MUESTRAN LAS PREGUNTAS DEL QUIZ CUANDO LAS ESTOY CREANDO Y EDITANDO -->
 			<div id="lista-preguntas" class="col-md-8">	</div>
+			</div> 
+
+
+									<!-- probando cosas nuevas aqui-->
+			<!-- CANVAS!!!!-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		</div>
-
-
-<!-- probando cosas nuevas aqui-->
-
-
-
-
-<!-- -->
-
-
-
-
-
-
-	
-
-	</div>
-	<div id="divparalosVideos" class="container text-center">
-	<div id="iframe_container2">
-
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/0D1wxxlBN-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	</div></div>
+		<div id="divparalosVideos" class="container text-center">
+	<!--aqui puedo poner los videos -->
+			</div></div>
 
   <!-- voy a intentar usar youtube iframe para hacer las explicaciones de los 
 
@@ -283,16 +225,30 @@ https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin.js?r=12
 https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/ModifiersPlugin-latest-beta.js
 -->
 
-<script src="./TweenMax.min.js"></script>
-<script src="./Draggable.min.js"></script> 
-<script src="./gsap.min.js"></script>  
+<script src="./libs/TweenMax.min.js"></script>
+<script src="./libs/Draggable.min.js"></script> 
+<script src="./libs/gsap.min.js"></script>  
+
 <script src="./App.js"></script>
 <script type="text/javascript" ></script>
-<script type="></script>
 
 
-	
+
+<!-- vamos a aprender a hacer videos Juegos!!!! -->
+
+<!-- <script src="./canvas/pajaro.js"></script>-->
+<!--<script src="./canvas/particulas.js"></script>-->
+<!--<script src="./canvas/obstaculos.js"></script>-->
+<!--<script src="./canvas/canvas.js"></script>-->
+<script src="./canvas/MapaMundo.js"></script>
+<script src="./canvas/canvasmapa.js"></script>
+
 <main></main>
+<!-- 
+probando una animacion en CSS -->
+
+
+
 
 
 </body>

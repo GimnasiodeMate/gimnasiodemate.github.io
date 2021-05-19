@@ -25,9 +25,7 @@ class barraMarcador{
     this.fillElem = element.querySelector('.barraMarcador-fill');
     this.setValue(initialValue);
 
-    console.log(this.valueElem);
-    console.log(this.fillElem);
-   } 
+    } 
    setValue (newValue){
    	if (newValue < 0) { newValue = 0;}
    	if (newValue >100) {newValue = 100;}
@@ -50,43 +48,11 @@ class barraMarcador{
 
 class UI {
 
+
+
+
 	agregaPregunta(itemx){
-		const listadePreguntas = document.getElementById('lista-preguntas');
-		const element = document.createElement('div');
-		let iconobuena ='<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 64 64"><path d="M63.792 56.915a6.876 6.876 0 0 1-6.875 6.876H6.875A6.876 6.876 0 0 1 0 56.915V6.875A6.878 6.878 0 0 1 6.875 0h50.042a6.877 6.877 0 0 1 6.875 6.875v50.04z" fill="#37b34a"/><path d="M53.867 14.14a4.656 4.656 0 0 0-6.562.514l-20.04 23.437l-10.781-9a4.248 4.248 0 1 0-5.447 6.519l14.444 12.06a4.223 4.223 0 0 0 3.235.946A4.654 4.654 0 0 0 31.895 47l22.483-26.3a4.659 4.659 0 0 0-.515-6.562" fill="#f4f4f4"/></svg>'
-		let iconoa ="";let iconob ="";let iconoc ="";let iconod ="";
-		switch(itemx.correcta){
-			case 'a': iconoa = iconobuena; break;
-			case 'b': iconob = iconobuena; break;
-			case 'c': iconoc = iconobuena; break;
-			case 'd': iconod = iconobuena; break;			
-		}	
-
-		element.innerHTML=`
-		<div  class="card text-left mb-4">
-			<div class="card-body" >
-				<strong>Pregunta </strong>: ${itemx.pregunta}
-				<div></div>
-				<strong>A. </strong>: ${itemx.opt1} ${iconoa}<br>
-				<strong>B. </strong>: ${itemx.opt2} ${iconob}<br>
-				<strong>C. </strong>: ${itemx.opt3} ${iconoc}<br>
-				<strong>D. </strong>: ${itemx.opt4} ${iconod}<br>
-				<div class="text-right">
-				<a href="#" class="btn btn-info"   id= ${itemx.llave} name="btnEditar">Editar</a>
-				<a href="#" class="btn btn-danger" id= ${itemx.llave} name="btnEliminar">Borrar</a></div>
-			</div> 
-		</div>
-
-		`;//<--tuve que ponerle a los dos la misma llave para que reconozca cual objeto es
 		
-		listadePreguntas.appendChild(element); 
-		this.resetPizarra();
-		
-		
-		// trabajemos con la base de datos
-		
-
-		//this.resetFormulario();
 			
 	}
 
@@ -112,14 +78,14 @@ class UI {
 			var i;
 			for (i = 0; i < basedeDatos.length; i++) {
  					
-					const El_item = new Item (basedeDatos[i].pregunta,
-											basedeDatos[i].opt1,
-											basedeDatos[i].opt2,
-											basedeDatos[i].opt3,
-											basedeDatos[i].opt4,
-											basedeDatos[i].correcta, 
-											basedeDatos[i].llave); 
-					this.agregaPregunta(El_item);
+					const El_item = new Item (basedeDatos[i].Item,
+											basedeDatos[i].OPCION_A,
+											basedeDatos[i].OPCION_B,
+											basedeDatos[i].OPCION_C,
+											basedeDatos[i].OPCION_D,
+											basedeDatos[i].CORRECTA);
+										
+				//	this.agregaPregunta(El_item);
 					jqMath.parseMath(document.body);
 
 
@@ -136,59 +102,22 @@ class UI {
 	console.log( "la base de datos antes de");
 	  console.log(basedeDatos);
 
+	  //Version2 mejor directamente al importar le caigo encima a basedeDatos
+
 	var dbRef = firebase.database().ref();
-	dbRef.on('value', snap => paquetededatos = snap.val());
+	dbRef.on('value', snap => basedeDatos = snap.val()); // recupera desde firebase
 	let casiBD;
 	console.log('el paquede de datos despues de traerselo de firebase quedo asi: ');
-	console.log(paquetededatos);
+	console.log(basedeDatos);
 	console.log ('conociendo mejor');
-	console.log(paquetededatos);
-	console.log(paquetededatos["item"]);
-	console.log(paquetededatos["item"].text);
-	casiBD = paquetededatos["item"].text;
 
-	// que tal si hago un push de los elementos para que los vaya agregando.
-//ui.agregaaBasedeDatos(El_item); 
-		var i;
-			for (i = 0; i < casiBD.length; i++) {
- 					casiBD[i]
- 					basedeDatos.push(casiBD[i]);
-				}
-
-
-
-
-
-
-
-
-	//basedeDatos.push(paquetededatos["item"].text);
-	//basedeDatos = paquetededatos["item"].text; // aqui la base de datos deberia tener lo mismo que antes de ir
 	this.agregaaLocalStorage(basedeDatos);
-	this.despliegadeDatos(basedeDatos);
-	console.log('acabo de ejecutar despliega datos');
-	//console.log('ahoralodificil');
-	//casiBD = paquetededatos["item"].text;
-	//console.log(casiBD);
-	//console.log('el primer valor');
-	//console.log(casiBD[0].pregunta);
-	//localStorage.setItem('preguntasquiz',  JSON.stringify(paquetededatos))	;
-	//basedeDatos = JSON.parse(paquetededatos);
-	//	console.log('Le hice un parse y asi quedo:');
-	//console.log(basedeDatos);
+	console.log('agrega a Local Storage la bd 1 quedo asi: ');
+	console.log(basedeDatos[0]);
+	//this.despliegadeDatos(basedeDatos);
+	console.log('me brinque despliegadatos');
+	return basedeDatos;
 
-
-	//this.agregaaLocalStorage(paquetededatos);
-	//basedeDatos = paquetededatos;
-	//console.log('yo asigne la paquete a la basede datos?')
-	//	 	console.log(basedeDatos);
-	//	 	console.log(' la DB con indice 1');
-	//	 	console.log(basedeDatos[1]);
-
-	//	console.log('esta deberia ser igual a la anterior')
-	//	 	console.log(paquetededatos);
-		 	
-//
 	}
 	
 	Inicializapaquetededatos(){ // no se por que hay que correr esto antes de jalar el firebase
@@ -201,14 +130,11 @@ class UI {
 
 
 	agregaaLocalStorage(basedeDatos){
-	let paquetededatos = JSON.stringify(basedeDatos);
-	// let paquetededatos;
-	console.log('la verdad no quiero que pase por aca')
-	console.log(paquetededatos);
+	//let paquetededatos = JSON.stringify(basedeDatos);
+	console.log('estoy cargando el local storage');
+	//console.log(paquetededatos);
 	localStorage.setItem('preguntasquiz',  JSON.stringify(basedeDatos))	;
-
-	paquetededatos = ' limpio'
-	console.log( "la base de datos antes de");
+	console.log( "comparemos el local storage con la base de Datos");
 	  console.log(basedeDatos);
 
 
@@ -220,21 +146,7 @@ class UI {
 	}
 
 
-	resetPizarra(){
-    	//document.getElementById('lineaPregunta').reset();
-    	let Borreme = document.querySelector('#lineaA');
-    	Borreme.innerText="";
-    	Borreme = document.querySelector('#lineaB');
-    	Borreme.innerText="";
-    	Borreme = document.querySelector('#lineaC');
-    	Borreme.innerText="";
-    	Borreme = document.querySelector('#lineaD');
-    	Borreme.innerText="";
-    	Borreme = document.querySelector('#lineaPregunta');
-    	Borreme.innerText="Ingrese la siguiente pregunta:";
 
-    	// en esta funcion lo intente con reset pero no quizo no se por que...
-	}
 
 
 	borraPregunta(element){// o talvez la edita
@@ -353,7 +265,9 @@ class UI {
 					basedeDatos = [];
 				}else{ 	basedeDatos = JSON.parse(itemsguardados);
 					 }	
-				const ui = new UI(); ui.despliegadeDatos(basedeDatos);
+				//const ui = new UI(); ui.despliegadeDatos(basedeDatos);
+				console.log('quiero saber como vuelven desde local storage:');
+					console.log(basedeDatos[0]);
 
 	};
 
@@ -369,7 +283,7 @@ class UI {
 			Borreme = document.querySelector('#labelcheckbox_c'); 	Borreme.innerText ="...";
 			Borreme = document.querySelector('#d_Correcta'); 	Borreme.checked =false;
 			Borreme = document.querySelector('#labelcheckbox_d'); 	Borreme.innerText ="...";
-			console.log('esto si lo esta haciendo');
+			
 					if (seleccionada == "a"){Borreme = document.querySelector('#a_Correcta');Borreme.checked =true; 
 											 Borreme = document.querySelector('#labelcheckbox_a');Borreme.innerText ="Respuesta Correcta";}
 					if (seleccionada == "b"){Borreme = document.querySelector('#b_Correcta');Borreme.checked =true;
@@ -395,6 +309,19 @@ class UI {
   					}
 	}
 
+
+	CambiaVistade(cual_Div_id){ //hace visible o invisible cualquier id
+
+		var x = document.getElementById(cual_Div_id);
+		if (x.style.display == 'block'){x.style.display = 'none';
+		}else{x.style.display = 'block';}
+			
+	}
+
+		
+
+
+
 	swictchformulario(){
 					var x = document.getElementById("respuestaEscrita");
   					if (x.style.display === "none") {
@@ -410,42 +337,79 @@ class UI {
   					}
 	}
 
-	revisaLargoPregunta(itemactual){
- 	if (itemactual.pregunta.length > 100){ console.log('esta es una pregunta larga');
-										  console.log(itemactual.pregunta.length);
+	revisaLargoPregunta(itemactual){ //areglar arreglar arreglar arreglar
+ 	if (itemactual.item > 100){ 
+										 
 	document.getElementById("DondePregunta").classList.remove("dondePregunto");
 	document.getElementById("DondePregunta").classList.add("dondePreguntomedium");
 }else{ document.getElementById("DondePregunta").classList.remove("dondePreguntomedium");
 	document.getElementById("DondePregunta").classList.add("dondePregunto"); }
-									}
+	}
 
+	muestra_este_formulario(cual_formulario){
+	var x = document.getElementById(cual_formulario); x.style.display = "block"
+	}
+
+	Esconde_formularios_pregunta(){
+		var x = document.getElementById("formulario_dos_columnas_fracciones"); x.style.display = "none"
+			x = document.getElementById("formulario_dos_columnas_texto"); x.style.display = "none"
+			x = document.getElementById("formulario_dos_columnas_imagen"); x.style.display = "none"
+			x = document.getElementById("formulario_solo_pregunta"); x.style.display = "none"
+			x = document.getElementById("botones_respuestas"); x.style.display = "none"
+			x = document.getElementById("btn_Enviar"); x.style.display = "none"
+	}
+								
 
 	cargaPregunta(itemactual){
+
+		this.Esconde_formularios_pregunta()
+
+		switch(itemactual.Tipo_Pregunta) {
+  			case 's_u':{ 
+  						this.cambia_texto(itemactual.Item, '#div_pregunta_simple');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_A');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_B');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_C');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_D');
+						this.muestra_este_formulario('formulario_solo_pregunta');
+						this.muestra_este_formulario('botones_respuestas');
+						this.inicializabotones();
+  			}; break; 
+    		case "frx": {
+    					this.cambia_texto(itemactual.Item, '#div_pregunta_fracciones');
+    					this.muestra_este_formulario('formulario_dos_columnas_fracciones');
+    					this.muestra_este_formulario('btn_Enviar');
+    		}; break;		
+    		case "txt":{ 
+  						this.cambia_texto(itemactual.Item, '#div_pregunta_texto');
+  						this.muestra_este_formulario('formulario_dos_columnas_texto');
+  						this.muestra_este_formulario('btn_Enviar');
+  			}; break; 
+    		case "s_u_img":{ 
+  						this.cambia_texto(itemactual.Item, '#div_pregunta_imagenes');
+  						this.muestra_este_formulario('formulario_dos_columnas_imagen');
+  						this.cambia_texto(itemactual.Item, '#btn_Opt_A');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_B');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_C');
+						this.cambia_texto(itemactual.Item, '#btn_Opt_D');
+						this.muestra_este_formulario('botones_respuestas');
+
+						this.inicializabotones();
+
+  			};break; 
+  			default:
+    		}
+
 		
-		this.revisaLargoPregunta(itemactual);
-		let textoIngresado = itemactual.pregunta;			//ahora el valor de linea pongalo en texto ingresado
-		let textoaMostrar = document.querySelector('#DondePregunta'); // texto a mostrar va a ser el destino linea pregunta
-		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
 
-		textoIngresado = "a) " +  itemactual.opt1;			//ahora el valor de linea pongalo en texto ingresado
-		textoaMostrar = document.querySelector('#btn_Opt_A'); // texto a mostrar va a ser el destino linea pregunta
-		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
+		//PRE-PREGUTNA
+		
+		//this.revisaLargoPregunta(itemactual); //arreglar!
 
-		textoIngresado = "b) " +  itemactual.opt1;			//ahora el valor de linea pongalo en texto ingresado
-		textoaMostrar = document.querySelector('#btn_Opt_B'); // texto a mostrar va a ser el destino linea pregunta
-		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
-
-		textoIngresado = "c) " +  itemactual.opt1;			//ahora el valor de linea pongalo en texto ingresado
-		textoaMostrar = document.querySelector('#btn_Opt_C'); // texto a mostrar va a ser el destino linea pregunta
-		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
-
-		textoIngresado = "d) " +  itemactual.opt1;			//ahora el valor de linea pongalo en texto ingresado
-		textoaMostrar = document.querySelector('#btn_Opt_D'); // texto a mostrar va a ser el destino linea pregunta
-		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
-
-		resp_ok = itemactual.correcta;
-
-
+		this.cambia_texto(itemactual.Pre_Pregunta, '#cuadro_dialogo');
+		resp_ok = itemactual.CORRECTA;
+		link_Solucion = itemactual.LINKVIDEO;
+		imagen_ITEM = itemactual.IMAGEN;
 		jqMath.parseMath(document.body);
 
 	}
@@ -474,6 +438,14 @@ class UI {
     	}
     	return labuena;}
 
+    inicializabotones(){
+    	document.getElementById("btn_Opt_A").disabled = false;
+		document.getElementById("btn_Opt_B").disabled = false;
+		document.getElementById("btn_Opt_C").disabled = false;
+		document.getElementById("btn_Opt_D").disabled = false;	
+		console.log('deberia habilitarlos que pasa');
+	};
+
     habilitaBotones(){ // habitila o dehabilita los botones de respuesta 
 		let labuena;
 		console.log('aqui deberia bloquear los botones');
@@ -485,12 +457,9 @@ class UI {
 			document.getElementById("btn_Opt_C").disabled = true;
 			document.getElementById("btn_Opt_D").disabled = true;
 		}else{
-				document.getElementById("btn_Opt_A").disabled = false;
-				document.getElementById("btn_Opt_B").disabled = false;
-				document.getElementById("btn_Opt_C").disabled = false;
-				document.getElementById("btn_Opt_D").disabled = false;	
+		this.inicializabotones();	
 		}
-    	}
+    }
 
 	
 
@@ -505,60 +474,80 @@ class UI {
     }}
 
 
-
 	
-	revisarespuesta(opt_escogida,resp_ok){ //comportamiento de botones
+	revisarespuesta_txt(opt_escogida,resp_ok){//revisar respuestas de texto
+		if (opt_escogida == resp_ok){
+			this.respuesta_Buena();
+			console.log('esta buena');
+	}else{	console.log('que pena está mala');
+			this.respuesta_Mala();}
+
+	}
+
+	respuesta_Buena(){
+				this.MuestraMensajeEnEncabezado("¡ Muy Bien !");
+		marcadoractual = marcadoractual + 15;
+		bM.setValue(marcadoractual);
+		this.sonidowin();
+		setTimeout(() => 	{ 	console.log('esperé 2 segundos');
+								   	this.siguientePregunta();
+								   	}, 3000); 
+
+	}
+
+	respuesta_Mala(){
+		this.MuestraMensajeEnEncabezado("Pucha, está mala... ¿querés ver la solución?");
+		marcadoractual = marcadoractual - 5;
+		bM.setValue(marcadoractual);
+		document.getElementById("llenadoMarcador").style.backgroundColor= "red";
+		this.sonidofail();
+		setTimeout(() => 	{ 	console.log('esperé 2 segundos');
+								   	this.siguientePregunta();
+								   	document.getElementById("llenadoMarcador").style.backgroundColor= '#1DD56E';
+			 					 }, 3000); 
+	}
+
+	revisarespuesta_btn(opt_escogida,resp_ok){ //comportamiento de botones
 
 		if (this.esigual(opt_escogida,resp_ok)){console.log('se la saco buena', opt_escogida);
 		document.getElementById(opt_escogida).classList.remove("btn-outline-secondary");
 		document.getElementById(opt_escogida).classList.add("boton_correcto");
-		this.MuestraMensajeEnEncabezado("¡ Muy Bien !");
-		marcadoractual = marcadoractual + 15;
-		bM.setValue(marcadoractual);
-
-		this.sonidowin();
-		
-									
+		this.respuesta_Buena();
+							
 		}else{console.log(opt_escogida); // aqui quiero que marque como mala esta y señala que era buena
 			console.log("esta mala");
-			this.MuestraMensajeEnEncabezado("Pucha, está mala... ¿querés ver la solución?");
+			
 			document.getElementById(opt_escogida).classList.remove("btn-outline-secondary");
 			document.getElementById(opt_escogida).classList.add("boton_equivocado");  
 			document.getElementById(this.cualeslaBuena(resp_ok)).classList.remove("btn-outline-secondary");
 			document.getElementById(this.cualeslaBuena(resp_ok)).classList.add("boton_correcto");
-			this.sonidofail();  
-			marcadoractual = marcadoractual - 5;
-			bM.setValue(marcadoractual);
-			document.getElementById("llenadoMarcador").style.backgroundColor= "red";
-			}
-		
-		this.habilitaBotones();
-		setTimeout(() => 	{ 	console.log('esperé 2 segundos');
-								   	this.siguientePregunta();
-								   	document.getElementById("llenadoMarcador").style.backgroundColor= '#1DD56E';
-			 					 }, 2500);
 			
-			console.log('y luego hice esto');
-
+			this.respuesta_Mala();  
+			this.habilitaBotones();
+		}
 	}
 
 	siguientePregunta(){
-		VoyporelItem ++; // me paso a la siguiente pregunta;
+		Voy_por_el_Item ++; // me paso a la siguiente pregunta;
 		this.MuestraMensajeEnEncabezado("Resolvé este ejercicio:");
 		this.arreglaFormatoBotones();
-		this.cargaPregunta(basedeDatos[VoyporelItem]);
-		this.habilitaBotones();
+		this.cargaPregunta(basedeDatos[Voy_por_el_Item]);
+		
+	}
+
+		cambia_texto(nuevoValor, destinoValor){
+		let textoIngresado = nuevoValor;			//ahora el valor de linea pongalo en texto ingresado
+		let textoaMostrar = document.querySelector(destinoValor); // texto a mostrar va a ser el destino linea pregunta
+		textoaMostrar.innerText = textoIngresado; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
+
 	}
 
 	MuestraMensajeEnEncabezado(elMensaje){
-console.log('si entro aqui');
 		let mensajeaMostrar = elMensaje;			//ahora el valor de linea pongalo en texto ingresado
-		let nuevoMensaje = document.querySelector('#cuadro_dialogo'); // texto a mostrar va a ser el destino linea pregunta
-		nuevoMensaje.innerText = mensajeaMostrar; // por ultimo el inner text de texto a mostrar va a ser linea pregunta
-		console.log(mensajeaMostrar);
+		this.cambia_texto(elMensaje, '#cuadro_dialogo');
 }
 
-	verModo4Opciones(){
+	verModo4Opciones(){ // este no me acuerdo que hacia
 			var x = document.getElementById("Guardar");
 				x.style.display = "none"
 				x = document.getElementById("lista-preguntas");
@@ -570,12 +559,12 @@ console.log('si entro aqui');
 
 
 sonidowin(){
-		var snd = new Audio("win.mp3"); // buffers automatically when created
+		var snd = new Audio("./snd/win.mp3"); // buffers automatically when created
 		snd.play();
 		}
 
 sonidofail(){
-		var snd = new Audio("fail.mp3"); // buffers automatically when created
+		var snd = new Audio("./snd/fail.mp3"); // buffers automatically when created
 		snd.play();
 		}
 
@@ -599,8 +588,9 @@ sonidofail(){
 	let rcorrecta = 'a'; // inicializo la respuesta correcta por defecto
 	let iconoa ="";let iconob ="";let iconoc ="";let iconod =""; let resp_ok ="a";
 	const LosBotones =["btn_Opt_A","btn_Opt_B","btn_Opt_C","btn_Opt_D"];
-	let VoyporelItem = 0; let marcadoractual = 5;
+	let Voy_por_el_Item = 0; let marcadoractual = 5;
 	const bM = new barraMarcador(document.querySelector('.barraMarcador'), marcadoractual);
+	let link_Solucion ; let LINKVIDEO ; let imagen_ITEM ; 
 
 
 // Quiero importar los datos desde un documento csv
@@ -608,14 +598,7 @@ sonidofail(){
 
 
 //temporal solo para poder trabajar en los quices!
-	var xx = document.getElementById("tarjeta");
-  					if (xx.style.display === "none") {
-   						 xx.style.display = "block";
-  					} else {
-    					xx.style.display = "none";
-  					}
-  	var c = document.getElementById("botones_respuestas");
-  	c.style.display = "none";
+
 
 // Eventos de DOM? del html cuando alguien hace click
 // vamso a atajar el submit del boton en formularioPregunta
@@ -624,91 +607,50 @@ sonidofail(){
 // aqui empiezo a tratar de reaccionar al boton recuperar la info a base de datos y por 
 //ultimo a desplegarlo en pantalla.
 
-		
-		
-
-let lineapregunta = document.querySelector('#Item');
-lineapregunta.addEventListener('keyup', function(){
-const ui = new UI(); ui.actualizaPizarra();});
-
-let linearespuestaA = document.querySelector('#opt_A');
-linearespuestaA.addEventListener('keyup', function(){
-const ui = new UI(); ui.actualizaPizarra();
-});
-
-let linearespuestaB = document.querySelector('#opt_B');
-linearespuestaB.addEventListener('keyup', function(){
-	const ui = new UI(); ui.actualizaPizarra(); });
-
-let linearespuestaC = document.querySelector('#opt_C');
-linearespuestaC.addEventListener('keyup', function(){
-const ui = new UI(); ui.actualizaPizarra(); });
-
-let linearespuestaD = document.querySelector('#opt_D');
-linearespuestaD.addEventListener('keyup', function(){
-const ui = new UI(); ui.actualizaPizarra(); });
 
 
-// esto es para que actualice los checkboxes y solo haya uno selecctionado
-let checkboxseleccionado = document.querySelector('#a_Correcta'); checkboxseleccionado.addEventListener('click', function(){
-	const ui = new UI(); ui.cambiaCheckbox('a');ui.actualizaPizarra();
-	rcorrecta = 'a'; console.log('cuando es que pasa por aqui'); console.log(iconoa)});
-													// Revisando CheckBox a
-	checkboxseleccionado = document.querySelector('#b_Correcta'); checkboxseleccionado.addEventListener('click', function(){
-	const ui = new UI(); ui.cambiaCheckbox('b');ui.actualizaPizarra();
-	rcorrecta = 'b'; });
-													// Revisando CheckBox b
-	checkboxseleccionado = document.querySelector('#c_Correcta'); checkboxseleccionado.addEventListener('click', function(){
-	const ui = new UI(); ui.cambiaCheckbox('c');ui.actualizaPizarra();
-	rcorrecta = 'c'; });
-													// Revisando CheckBox c
-	checkboxseleccionado = document.querySelector('#d_Correcta'); checkboxseleccionado.addEventListener('click', function(){
-	const ui = new UI(); ui.cambiaCheckbox('d');ui.actualizaPizarra();
-	rcorrecta = 'd'; });
-													// Revisando CheckBox c
+
 
 //LISTENERS DE BOTONES //
 
 	
 
 		document.getElementById('firebasebtnsave').addEventListener('click' , function(e){
-			 // aqui vamos a ejecutar el exportar a firebase
-			 console.log('esta es la base de datos en este punto 666');
-			 console.log(basedeDatos);
-			 	 let paquetededatos = basedeDatos;
-	  			 firebase.database().ref('item').set({text: paquetededatos})
+			// PARA EXPORTAR BASE DE DATOS A FIREBASE
+			let paquetededatos = basedeDatos;
+	  		firebase.database().ref('item').set({text: paquetededatos})			});
 
-			});
-
+//>>
 		document.getElementById('firebasebtnload').addEventListener('click' , function(e){
-		 // aqui vamos a ejecutar el importe 
-			const ui = new UI();
-			console.log('presione el boton y corri la funcion recupera firebase');
-		 	ui.recuperadeFirebase(basedeDatos)
+		 	// PARA IMPORTAR DESDE FIREBASE A BASEDEDATOS 
+			basedeDatos = ui.recuperadeFirebase(basedeDatos)	 	});
 
-		 });
+//>>
+		document.getElementById('importar').addEventListener('click' , function(e){
+			// PARA IMPORTAR DE LOCAL STORAGE A BASAEDEDATOS
+			var itemsguardados = localStorage.getItem('preguntasquiz');
+			if(itemsguardados == null){
+					basedeDatos = [];
+			}else{ 	basedeDatos = JSON.parse(itemsguardados);}
+
+			ui.despliegadeDatos(basedeDatos); })
+//>>
 			
 			//jala desde localStorage y lo guarda en BasedeDatos
 			//esto deberia estar en un metodo pero lo hecemos despues 
 
 		document.getElementById('btnCreaQuices').addEventListener('click' , function(e){
-			const ui = new UI(); ui.muestraEditor();
+			ui.muestraEditor();
 			 // es para esconder la vista principal del editor
 			 
 			});
 
-
-	document.getElementById('cambiaVista').addEventListener('click' , function(e){
-	const ui = new UI(); ui.swictchformulario(); ui.verModo4Opciones();
-			 // vamomos viendo los diferentes sistemas de respuesta
-			 
-			});
-
 	document.getElementById('iniciaquiz').addEventListener('click' , function(e){
-		console.log('vamos a iniciar el quiz');
-		console.log(basedeDatos);
-		let itemactual = basedeDatos[VoyporelItem];
-	const ui = new UI(); ui.cargaPregunta(itemactual);
+		
+		ui.CambiaVistade("Tarjeta-Items");
+		ui.CambiaVistade("portada");
+		ui.CambiaVistade("barraMarcador");
+		ui.cargaPregunta(basedeDatos[Voy_por_el_Item]);
 			 // vamomos viendo los diferentes sistemas de respuesta
 			 
 			});
@@ -717,31 +659,56 @@ let checkboxseleccionado = document.querySelector('#a_Correcta'); checkboxselecc
 //preguntar si hay forma de hacer estos cuatro en uno.....
 
 document.getElementById('btn_Opt_A').addEventListener('click' , function(e){
-			const ui = new UI(); ui.revisarespuesta("btn_Opt_A",resp_ok);
+			ui.revisarespuesta_btn("btn_Opt_A",resp_ok);
 			
 			});
 document.getElementById('btn_Opt_B').addEventListener('click' , function(e){
-			const ui = new UI(); ui.revisarespuesta("btn_Opt_B",resp_ok);
+			ui.revisarespuesta_btn("btn_Opt_B",resp_ok);
 			});
 document.getElementById('btn_Opt_C').addEventListener('click' , function(e){
-			const ui = new UI(); ui.revisarespuesta("btn_Opt_C",resp_ok);
+			ui.revisarespuesta_btn("btn_Opt_C",resp_ok);
 			});
 document.getElementById('btn_Opt_D').addEventListener('click' , function(e){
-			const ui = new UI(); ui.revisarespuesta("btn_Opt_D",resp_ok);
+			ui.revisarespuesta_btn("btn_Opt_D",resp_ok);
 			});
 
+document.getElementById('btn_Enviar').addEventListener('click' , function(e){
+	var fraccion_respondida = document.getElementById("numerador_escrito").value + "/" +  document.getElementById("denominador_escrito").value; 
+console.log('esta es la Fraccion Respondida');
+console.log(fraccion_respondida);
+ui.revisarespuesta_txt(fraccion_respondida,resp_ok);
+
+	//obtiene la respuesta de numerador y denominador y la mete en una variable
+			
+						});
+
+// LISTENER DE TECLADO
+
+let presionaFlechas = document.querySelector('#numerador_escrito');
+presionaFlechas.addEventListener('keydown', function(e){
+	console.log('apreto algo pero no se que');
+	if (e.keyCode == '40') {
+		document.getElementById('denominador_escrito').focus();
+		document.getElementById('denominador_escrito').select();
+		};
+});
+
+presionaFlechas = document.querySelector('#denominador_escrito');
+presionaFlechas.addEventListener('keydown', function(e){
+	console.log('apreto algo pero no se que');
+	if (e.keyCode == '38') {
+		console.log('si esta  entraaando');
+		document.getElementById('numerador_escrito').focus();
+		document.getElementById('numerador_escrito').select();
+		};
+});
 
 
-// LISTENER DE LOS BOTONES DE RESPUESTA DEL QUIZ
+
 
 // yo quiero hacer lo mismo pero desde el otro click el de importar
-		document.getElementById('importar').addEventListener('click' , function(e){
-			var itemsguardados = localStorage.getItem('preguntasquiz');
-				if(itemsguardados == null){
-					basedeDatos = [];
-				}else{ 	basedeDatos = JSON.parse(itemsguardados);
-					 }	
-				const ui = new UI(); ui.despliegadeDatos(basedeDatos); })
+
+
 			 // aqui vamos a ejecutar el importe 
 
 			
@@ -751,61 +718,11 @@ document.getElementById('btn_Opt_D').addEventListener('click' , function(e){
 
 		// ahora quiero que ese basedeDatos se despliegue en pantalla debo usar una funcion ui
 
-"use strict";
-
-fetch("/.csvjson.json")
-.then(function(resp){
-	return resp.json();
-})
-.then(function(data){
-console.log("estoy haciendo esto");
-console.log(data);
-});
-		
 
 
 // ok esto es un evento de click en submit y este puede llamar a el item por primera vez
 
 
-document.getElementById('formularioPregunta')
-.addEventListener('submit', function(e){
-	
-	const pregunta = document.getElementById('Item').value ;
-	const opt_A = document.getElementById('opt_A').value ;
-	const opt_B = document.getElementById('opt_B').value ;
-	const opt_C = document.getElementById('opt_C').value ;
-	const opt_D = document.getElementById('opt_D').value ;
-	const key_ = Math.random().toString().slice(2,11); // un valor al azar para poder buscarlo
-
-	
-	//if (key_ == 'nuevallave'){ key_ = Math.random().toString().slice(2,11);} // un valor al azar para poder buscarlo
-	
-
-	const El_item = new Item (pregunta , opt_A , opt_B, opt_C , opt_D, rcorrecta, key_); 
-console.log("la respuesta correcta es " + rcorrecta);
-
-
-
-	// aqui estamos creando el Item o sea la pregunta y las respuestas 
-	// en el constructor seria lindo que tambien lo almacenara en otro objeto que se llame examen
-	// esta clase examen debe contener, una lista de Items
-
-	const ui = new UI(); 
-	                        // creo un objeto que contiene los metodos de ui
-	ui.agregaPregunta(El_item);				//ui.agregaaBasedeDatos();
-	ui.resetFormulario(); 					// limpia el formulario
-	ui.agregaaBasedeDatos(El_item); 
-	console.log('la base de datos crece');
-	console.log(basedeDatos);
-			// ahora vamos a poner esto en una base de datos local
-	
-	ui.agregaaLocalStorage(basedeDatos); 	// y por ultimo lo voy a guardar en un local storage
-	ui.muestraMensaje('Se Agregó corectamente', 'success'); 
-	jqMath.parseMath(document.body); // refresca notacion matematica
-
-	
-	e.preventDefault();
-})
 
 document.getElementById('lista-preguntas')
 .addEventListener('click', function(e){
@@ -817,110 +734,7 @@ document.getElementById('lista-preguntas')
 
 
 
-var xmlns = "http://www.w3.org/2000/svg",
-  xlinkns = "http://www.w3.org/1999/xlink",
-  select = function(s) {
-    return document.querySelector(s);
-  },
-  selectAll = function(s) {
-    return document.querySelectorAll(s);
-  },
-    liquid = selectAll('.liquid'),
-    tubeShine = select('.tubeShine'),
-    label = select('.label'),
-    follower = select('.follower'),
-    dragger = select('.dragger'),
-    dragTip = select('.dragTip'),
-    minDragY = -380,
-    liquidId = 0,
-    step = Math.abs(minDragY/100),
-    snap = Math.abs(minDragY/10),
-    followerVY = 0
-  
-
-TweenMax.set('svg', {
-  visibility: 'visible'
-})
-
-TweenMax.set(dragTip, {
- transformOrigin:'20% 50%'
-})
-
-var tl = new TimelineMax()
-tl.staggerTo(liquid, 0.7, {
- x:'-=200',
- ease:Linear.easeNone,
- repeat:-1
-},0.9)
-
-tl.time(100);
-
-document.addEventListener("touchmove", function(event){
-    event.preventDefault();
-});
-Draggable.create(dragger, {
- type:'y',
- bounds:{minY:minDragY, maxY:0},
- onDrag:onUpdate,
- throwProps:true,
- throwResistance:2300,
- onThrowUpdate:onUpdate,
- overshootTolerance:0,
- snap:function(value){
-  //Use this to snap the values to steps of 10
-  //return Math.round(value/snap) * snap
- }
-})
-
-function onUpdate(){
- liquidId = Math.abs(Math.round(dragger._gsTransform.y/step));
-
- label.textContent = liquidId + '°';
- TweenMax.to(liquid, 1.3, {
-  y:dragger._gsTransform.y*1.12,
-  ease:Elastic.easeOut.config(1,0.4)
- })
- 
-}
-
-TweenMax.to(follower, 1, {
- yo:'+=0',
- repeat:-1,
- modifiers:{
-  yo:function(y, count){
-  followerVY += (dragger._gsTransform.yo - follower._gsTransform.yo) * 0.23;
-   followerVY *= 0.69;
-   return follower._gsTransform.yo + followerVY; 
-  }
- }
-})
-
-TweenMax.to(dragTip, 1, {
- rotation:'+=0',
- repeat:-1,
- modifiers:{
-  rotation:function(rotation, count){
-   return rotation-followerVY
-  }
- }
-})
-
-TweenMax.to(label, 1, {
- y:'+=0',
- repeat:-1,
- modifiers:{
-  y:function(y, count){
-   return y-followerVY * 0.5
-  }
- }
-})
-
-
-TweenMax.to(dragger, 1.4, {
- y:minDragY/2,
- onUpdate:onUpdate,
- ease:Expo.easeInOut
-})
+	
 
 
 //ScrubGSAPTimeline(tl);

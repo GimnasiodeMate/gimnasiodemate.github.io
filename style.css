@@ -6,6 +6,31 @@
 	box-sizing: border-box;
 	font-family: 'Poppins', sans-serif;
 }
+/*
+proyecto globo animacion css*/
+
+
+/*Proyecto de Canvas*/
+
+#canvas-container {
+   width: 100%;
+   text-align:center;
+}
+
+
+canvas1{
+
+ padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 800px;
+
+
+}
+
+
 
 
 
@@ -13,11 +38,22 @@
 
 
 
+
+
+
+
+
+.dondePregunto{
+	text-align: right;
+}
+
+
+
 .barraMarcador{
 	margin: auto;
 	margin-top: 25px;
 	position: relative;
-	width: 400px;
+	width: 80%;
 	height:  40px;
 	background: #FFF;
 	border: 2px solid #000;
@@ -49,10 +85,28 @@
 	font-weight: 400;
 }
 
+.RespEscrita{
+	margin-top-top: 2px;
+	margin-bottom: 2px;
+	height: 30px;
+	width:50px;
+	text-align: center;
+	border-style: none;
+	border-radius: 10px 10px 10px;
+	font-size: 25px;
+	background-color: #F2F8F5;
+
+}
 
 .respuestaEscrita{
 margin-bottom: 4px;
 }
+
+.lineaFraccion{
+	position: relative;
+
+}
+
 
 .cuadrobotones{
 	margin-bottom: 4px;
@@ -98,10 +152,19 @@ margin-bottom: 4px;
 	border-radius: 5px;
 	background: #D53B1D;
 	cursor: ponter;
-
 }
 
+
+.portada{
+	height: 80%;
+  	width:70%;
+  	margin-bottom: 10px;
+  	
+}
+
+
 .card-header {
+
 	font-size: 25px;
 	font-weight: 500;
 }
@@ -339,50 +402,6 @@ svg {
 	border-radius: 5px;
 	border: 1px solid #343a40;
 }
-
-
-
-
-
-.quiz_box section{
-	padding: 25px 30px 20px 30px;
-	background: #fff;
-
-}
-
-
-.quiz_box section .que_text{
-	font-size: 25px;
-	font-weight: 600;
-}
-	
-
-.quiz_box section .option_list{
-	padding: 20px 0;
-	display: block; 
-}
-	
-.quiz_box section .option_list . option{
-	background: aliceblue;
-	border: 1px solid #845cfe;
-	border-radius: 5px;
-	padding: 8px 15px;
-	margin-bottom: 15px;
-	font-size: 17;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	cursor: pointer;
-	transition: all 0.3 ease;
-}
-
-.quiz_box section .option_list . option:hover{
-	color: #004085;
-	background: #cc5ff;
-	border-color: #b8daff;
-
-}
-
 
 
 .option_list .option:last-child{
