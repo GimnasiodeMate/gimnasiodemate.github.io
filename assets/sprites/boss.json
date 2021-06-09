@@ -1,0 +1,11 @@
+{"frames":{
+	"000":{"frame":{"x":0,"y":0,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"001":{"frame":{"x":99,"y":0,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"002":{"frame":{"x":198,"y":0,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"003":{"frame":{"x":297,"y":0,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"004":{"frame":{"x":0,"y":203,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"005":{"frame":{"x":99,"y":203,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"006":{"frame":{"x":198,"y":203,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"007":{"frame":{"x":297,"y":203,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}},
+	"008":{"frame":{"x":0,"y":406,"w":99,"h":203},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":99,"h":203},"sourceSize":{"w":99,"h":203}}},"meta":{"app":"https://github.com/piskelapp/piskel/","version":"1.0",
+		"image":"image.png","format":"RGBA8888","size":{"w":396,"h":609}}}
