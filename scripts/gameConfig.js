@@ -14,11 +14,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-                debug: true,
+                debug: false,
                 gravity: { y: 0}
                 },
         matter: { 
-                debug: true,
+                debug: false,
                 gravity: { y: 0.5 } }
     },
     scale: {
