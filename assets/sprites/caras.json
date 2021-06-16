@@ -1,0 +1,16 @@
+{"frames":{
+	"0":{"frame":{"x":0,"y":0,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"1":{"frame":{"x":208,"y":0,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"2":{"frame":{"x":416,"y":0,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"3":{"frame":{"x":624,"y":0,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"4":{"frame":{"x":832,"y":0,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"5":{"frame":{"x":0,"y":412,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"6":{"frame":{"x":208,"y":412,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"7":{"frame":{"x":416,"y":412,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"8":{"frame":{"x":624,"y":412,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"9":{"frame":{"x":832,"y":412,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"10":{"frame":{"x":0,"y":824,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"11":{"frame":{"x":208,"y":824,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"12":{"frame":{"x":416,"y":824,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}},
+	"13":{"frame":{"x":624,"y":824,"w":208,"h":412},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":208,"h":412},"sourceSize":{"w":208,"h":412}}},
+	"meta":{"app":"https://github.com/piskelapp/piskel/","version":"1.0","image":"image.png","format":"RGBA8888","size":{"w":1040,"h":1236}}}
