@@ -14,11 +14,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-                debug: false,
+                debug: true,
                 gravity: { y: 0}
                 },
         matter: { 
-                debug: false,
+                debug: true,
                 gravity: { y: 0.5 } }
     },
     scale: {
@@ -33,10 +33,15 @@ let config = {
 
 
 const game = new Phaser.Game(config)
-game.scale.gameSize.width = window.innerWidth;
-game.scale.gameSize.height = window.innerHeight+100;
 
-console.log(game.scale);
+
+
+game.scale.gameSize.width = window.innerWidth;
+game.scale.gameSize.height = window.innerHeight+100
+
+
+
+ 
     //game(config);
 }) //end load listener
 

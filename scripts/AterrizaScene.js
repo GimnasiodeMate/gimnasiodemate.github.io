@@ -273,5 +273,16 @@ class AnimaAvatar extends Entity{
                 frameRate: animFrameRate,
             repeat: -1
         })
+
+/// Helicoptero
+        anims.create({
+                key: 'heliAterriza',
+                frames: anims.generateFrameNames('heliAterriza',{ frames: [ "000","001","002"] }),
+                frameRate: animFrameRate,
+            repeat: -1
+        })
+
+
+
     }
 }

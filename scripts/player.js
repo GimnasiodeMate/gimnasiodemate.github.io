@@ -10,7 +10,8 @@ class Player extends Entity {
         this.health = health
         this.facing= 'down'
         this.speed = 200;
-
+        this.velocidades = [0.05,0.05,0.2]
+        
 
 
 /// Izquierda
@@ -146,6 +147,26 @@ class Player extends Entity {
 
 	update(){
 
+
+
+        ///////////////////////////
+        //// controles con Joystick
+        var potenciaX = this.scene.joystick.potenciaX;
+        var potenciaY = this.scene.joystick.potenciaY;
+        var velocidadActual;
+
+
+
+        if (potenciaX != 0 || potenciaY !=0) { // alguien esta movieno el joystick
+
+                if (this.scale < 1.5){this.scale *= 1.02}
+                if (0.5 < this.scale){   velocidadActual = acelera(this.velocidades[1],this.velocidades[2]);
+                                  
+                                    this.velocidades[1] = velocidadActual;
+                                    this.x += potenciaX * velocidadActual;//vel actual
+                                    this.y -= potenciaY * velocidadActual;}
+        }else{this.velocidades[1]=this.velocidades[0]}
+
         
         const {keys} = this //output: this.keys
        // let speed = this.speed
@@ -181,21 +202,18 @@ class Player extends Entity {
         this.body.velocity.normalize().scale(this.speed)
 
         //animations
-        if (keys.up.isDown || keys.w.isDown) {
-            this.anims.play('Arriba', true)
-            this.facing = 'up'
-        } else if (keys.down.isDown || keys.s.isDown) {
-            this.anims.play('Abajo', true)
-            this.facing = 'down'
-        } else
-        if (keys.left.isDown || keys.a.isDown) {
-            this.anims.play('Izquierda', true)
-            this.facing = 'left'
-        } else if (keys.right.isDown || keys.d.isDown) {
-            this.anims.play('Derecha', true)
-            this.facing = 'right'
-        } else {
-            //this.anims.stop()
+
+
+        if (valAbsoluto(potenciaY) > 0) {
+           
+
+           
+            if (valAbsoluto(potenciaX) > valAbsoluto(potenciaY)){  
+                    if (potenciaX>0){ this.anims.play('Derecha', true)}else{this.anims.play('Izquierda', true)}
+            }else   if (potenciaY>0){ this.anims.play('Arriba',  true)}else{ this.anims.play('Abajo', true)}
+            
+           }else { // si no hay potencia... aterrice
+          
              this.speed = 200; // resetea aceleracion
              this.body.setVelocity(0)
              this.scale = aterriza(this.scale);
@@ -227,13 +245,12 @@ class Player extends Entity {
 
     }
 
-    function acelera(vel){
-        let factor = 1;
-        let maxVel = 500;
+    function acelera(current,max){
+      
+        if (current < max){current+= 0.001}
         
-        if (vel<maxVel){vel += 3;}
-        return vel;               
-}
+    return current
+    }
 
     function aterriza(escala){
         if (0.15 < escala){escala *=0.99}
@@ -247,9 +264,10 @@ class Player extends Entity {
        
     escena.sonido_helicoptero.volume = escala;
     if ( !this.playing){ escena.sonido_helicoptero.play();
-                                      this.playing = true }
+                                     this.playing = true }
+  }
 
- 
-
-
-    }
+     function valAbsoluto(a){
+        if (a<0){a=-a}
+        return a;
+      }

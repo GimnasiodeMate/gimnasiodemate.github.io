@@ -12,22 +12,49 @@ class Turista extends Entity{
                 this.body.gravity.y = 100;
                 this.depth =1;
 
-		let animFrameRate =  8;
-/// aterrizando
+                this.animAnterior = 'miraDerecha'
+		let animFrameRate =  4;
+
+
+/// mira derecha
         anims.create({
-                key: 'ayuda',
-                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "0", "1", "2", "0","0","0","0","0","0", "1", "2"] }),
-                frameRate: 10, repeat: -1 })
+                key: 'miraDerecha',
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "0", "1"] }),
+                frameRate: animFrameRate, repeat: -1 })
+
+/// mira derechaUP
+        anims.create({
+                key: 'miraDerechaUP',
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "6", "7"] }),
+                frameRate: animFrameRate, repeat: -1 })
+
+/// mira izquierda
+        anims.create({
+                key: 'miraIzquierda',
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "2", "3"] }),
+                frameRate: animFrameRate, repeat: -1 })
+
+/// mira izquierdaUP
+        anims.create({
+                key: 'miraIzquierdaUP',
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "4", "5"] }),
+                frameRate: animFrameRate, repeat: -1 })
+
       
-		this.anims.play('ayuda')
-		this.setScale(1.3,0.5)
+		this.anims.play('miraIzquierda')
+		this.setScale(0.4)
 
 		
     }//final del Constructor
 
-    update(){
-    	console.log('si pasa por aqui');
-    	
+    updateTurista(){
+        if (this.y > this.scene.mini_chopper.y){
+                if (this.x < this.scene.mini_chopper.x && this.animAnterior != 'miraDerechaUP') {this.anims.play('miraDerechaUP');this.animAnterior='miraDerechaUP';}
+         else if (this.x > this.scene.mini_chopper.x && this.animAnterior != 'miraIzquierdaUP') {this.anims.play('miraIzquierdaUP');this.animAnterior='miraIzquierdaUP';}
+        }
+        else if (this.x < this.scene.mini_chopper.x && this.animAnterior != 'miraDerecha') {this.anims.play('miraDerecha');this.animAnterior='miraDerecha';}
+                else if (this.x > this.scene.mini_chopper.x && this.animAnterior != 'miraIzquierda') {this.anims.play('miraIzquierda');this.animAnterior='miraIzquierda';}
+        
 										// cambie direccion
 			
 	} // final de UPDATE()

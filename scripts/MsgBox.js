@@ -13,7 +13,13 @@ class FiltroCartesiano extends Entity{
             
 
 }
-}
+
+} 
+       
+
+
+
+
 
 
 class BotonEje extends Entity{
@@ -98,9 +104,8 @@ class MsgBox extends Entity {
         this.icono_chica = new Icono(this.scene,this.animacion)
         this.icono_cart = new BotonEje(this.scene,'icono_eje')
         this.icono_chica.setInteractive();
-       
+    
  
-
         this.msgbox = this.scene.physics.add.staticImage(this.scene.player.x+600, 400+this.scene.cameras.main._scrollY, 'msgbox');
         this.msgbox.setScale(1);
         this.msgbox.visible = true
@@ -142,7 +147,7 @@ class MsgBox extends Entity {
 	
 
 	update_Msg_Pos(elzoom){
-
+            //acomoda los elementos del menu en la parte del mapa para que no se muevan
 
 		var  posX_Msgbox = this.scene.cameras.main.midPoint.x  - (this.scene.cameras.main.displayWidth/2)  + 800 * (1/elzoom)
         var  posY_Msgbox = this.scene.cameras.main.midPoint.y  + (this.scene.cameras.main.displayHeight/2) - 125 * (1/elzoom)
@@ -151,31 +156,37 @@ class MsgBox extends Entity {
        
 
 
+     
 
 
-
-
+    // aqui abajo ya estoy asignandoles el punto  y la escala donde van a ir
+    // el msgbox
 		this.msgbox.setPosition(posX_Msgbox, posY_Msgbox);
         this.msgbox.setScale(2/(1.5*elzoom))
+    //el texto del mensaje
         this.mensajeL1.setPosition( posX_Msg-250*(1/elzoom) , posY_Msg-20)*(1/elzoom);
         this.mensajeL1.setFontSize(40/(1.5*elzoom));
        
 
-
+    //creo una variable para la ubicacion de la muchacha
         var posX_icono_chica =  this.scene.cameras.main.midPoint.x  - (this.scene.cameras.main.displayWidth/2)  + 60 * (1/elzoom)
         var posY_icono_chica =  this.scene.cameras.main.midPoint.y  + (this.scene.cameras.main.displayHeight/2) - 100 * (1/elzoom)
-            
+    
+    //asigno pos y escala a icono chica
         this.icono_chica.setPosition(posX_icono_chica, posY_icono_chica);
         this.icono_chica.setScale(1/(1.5*elzoom));
 
+    // variable para boton cartesian
         var posX_icono_cart = posX_icono_chica + (100/(elzoom*0.7))
         var posY_icono_cart = (posY_icono_chica)
 
-       
+    // asigno pos y escala a icono cartesiano
         this.icono_cart.laImagen.setPosition(posX_icono_cart, posY_icono_cart);
         this.icono_cart.laImagen.setScale(1.5/(1.5*elzoom));
 
           
+   
+
         if (this.scene.filtro_clicked){ this.scene.filtro_clicked = false
                                         this.filtro_cart.laImagen.visible = !this.filtro_cart.laImagen.visible}
 
@@ -184,7 +195,7 @@ class MsgBox extends Entity {
                                         this.mensajeL1.visible = !this.mensajeL1.visible
                                         this.mensajeL2.visible = !this.mensajeL2.visible
                                         this.scene.time.addEvent({
-                                        delay: 17000,
+                                        delay: 15000,
                                         callback:()=>{
                                         this.msgbox.visible = false
                                         this.mensajeL1.visible = false;

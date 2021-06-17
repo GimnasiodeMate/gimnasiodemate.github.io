@@ -54,7 +54,7 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
 
             //this.isaac = new Turista(this, 500,400, 'anim_msgbox' ); // el que cae
             this.bola = new Turista(this, 500,340, 'turist');
-            this.bola.setScale(0.7);
+           
 
 
             this.isaac2 = new Turista(this, 700,500, 'turist');
@@ -118,6 +118,13 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
             ////////////////////
             // comportamientos raton
             this.apretado = false
+
+
+            /////////////////////////////
+            //// creando el Joystick
+
+              this.joystick = new Joystick(this,1420,680,'basePad');
+
 
 
    this.input.on('pointerdown', () => this.apretado = true);
@@ -185,9 +192,35 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
 }/// fin de create
 
 update() {
+
+
+
+
+            //////////////////////////////////////
+            // controlando el minichopper
+
+                //////////////////
+                //joystick
+                var elzoom=1;
+                this.joystick.joystickUpdate(elzoom)
+               if (!this.input.activePointer.isDown){ this.joystick.isClicked = false}
+
+                    var potenciaX = this.joystick.potenciaX;
+                    var potenciaY = this.joystick.potenciaY;
+                
+                //////////////////
+                //movimiento
+
+                this.manejaHelic(potenciaX,potenciaY)
+
+
+
             this.elmecate.updateMecate();
                 this.elmecate2.updateMecate();
                     this.elmecate3.updateMecate();
+
+            this.bola.updateTurista();       
+            this.isaac2.updateTurista();        
             
             let velX =  this.mini_chopper.body.velocity.x;
             let velY =  this.mini_chopper.body.velocity.y;
@@ -196,7 +229,8 @@ update() {
             this.pegas[0] = this.mini_chopper.x ; this.pegas[1] = this.mini_chopper.y
 
 
-         
+             
+
 
             // this.mini_chopper.angle = this.mini_chopper.angle +=0.01; 
            
@@ -210,7 +244,7 @@ update() {
             
             // this.ubicamecate()
             
-           this.manejaHelic()
+           
         
            if (!this.explotado && this.mini_chopper.body.touching.none == false)
                 {   this.bum.explota();
@@ -234,38 +268,46 @@ update() {
 
 
 
-manejaHelic(){
+manejaHelic(potenciaX,potenciaY){
 
-    let velX =  this.mini_chopper.body.velocity.x;
-    let velY =  this.mini_chopper.body.velocity.y;
+    // let velX =  this.mini_chopper.body.velocity.x;
+    // let velY =  this.mini_chopper.body.velocity.y;
+    console.log('aqui empezamos');
 
-if (this.apretado){ 
+                if (potenciaX != 0 || potenciaY != 0){ //empezamos a movernos
+
+                    if (potenciaY<0){this.mini_chopper.body.velocity.y -= potenciaY*0.05}
+                    if (potenciaY>0){this.mini_chopper.body.velocity.y -= potenciaY*0.05} 
+                    if (potenciaY<0){this.mini_chopper.body.velocity.x += potenciaX*0.05}
+                    if (potenciaY>0){this.mini_chopper.body.velocity.x += potenciaX*0.05}
+                        console.log(this.mini_chopper.y)
+                    }       
                         
-                        /////////////////////// arriba abajo
-                        if (this.input.mousePointer.y < this.mini_chopper.y)
-                                 { velY += -2; }
-                        else { velY += 2;}
-                        /////////////////////// izquierda derecha
-                        if (this.input.mousePointer.x < this.mini_chopper.x)
-                                 {  velX += -2;this.rotacionIzq();}
-                        else{ velX += 2;  this.rotacionDer();}
+//                         /////////////////////// arriba abajo
+//                         if (this.input.mousePointer.y < this.mini_chopper.y)
+//                                  { velY += -2; }
+//                         else { velY += 2;}
+//                         /////////////////////// izquierda derecha
+//                         if (this.input.mousePointer.x < this.mini_chopper.x)
+//                                  {  velX += -2;this.rotacionIzq();}
+//                         else{ velX += 2;  this.rotacionDer();}
 
                       
-}else{ 
-         velY *= 0.9;
-         this.rotacionRegresa();
+// }else{ 
+//          velY *= 0.9;
+//          this.rotacionRegresa();
        
-       if (0< velY && velY < 0.25  || -0.25 < velY && velY < 0  ){velY=0} // frene en X!
-        velX *= 0.9;
-        if (0< velX && velX < 0.25  || -0.25 < velX && velX < 0  ){velX=0} // frene en Y!            
-      }
+//        if (0< velY && velY < 0.25  || -0.25 < velY && velY < 0  ){velY=0} // frene en X!
+//         velX *= 0.9;
+//         if (0< velX && velX < 0.25  || -0.25 < velX && velX < 0  ){velX=0} // frene en Y!            
+//       }
 
-     this.mini_chopper.body.velocity.x = velX;
-     this.mini_chopper.body.velocity.y = velY;
+//      this.mini_chopper.body.velocity.x = velX;
+//      this.mini_chopper.body.velocity.y = velY;
      
   
 
-      // empezamos preguntando si esta en movimiento
+//       // empezamos preguntando si esta en movimiento
 
   }
 

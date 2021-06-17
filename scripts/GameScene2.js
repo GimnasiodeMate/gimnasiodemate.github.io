@@ -44,10 +44,7 @@ class GameScene extends Phaser.Scene {
         // PRELOAD IMAGENES ESTATICAS
 
             this.load.image('cartesiano', '../assets/imgs/cartesiano.webp')
-            this.load.image('basePad', '../assets/imgs/basepad.webp')
-            this.load.image('mandoPad', '../assets/imgs/mando.webp')
             this.load.image('msgbox', '../assets/imgs/msgbox1.png')
-            this.load.image('icono_eje', '../assets/imgs/cart_icon.png')
             this.load.image('icono_eje', '../assets/imgs/cart_icon.png')
 
         ///////////////////////////////
@@ -92,6 +89,11 @@ class GameScene extends Phaser.Scene {
         this.sonido_helicoptero
 
 
+        ////////////////////////// PLUGIN DEL JOYSTICK
+        var url;
+  
+        url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+        this.load.plugin('rexvirtualjoystickplugin', url, true);
 
 
 
@@ -168,6 +170,28 @@ class GameScene extends Phaser.Scene {
 
               this.healthbar = new Healthbar(this, 20,18,100)
 
+              /////////////////////
+              /// crea Joystick
+
+              this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+                x: 0,
+                y: 0,
+                radius: 100,
+                base: this.add.circle(0, 0, 100, 0x131339),
+                thumb: this.add.circle(0, 0, 50, 0xcc0000),
+                // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
+                // forceMin: 16,
+                // enable: true
+            })
+            .on('update', this.dumpJoyStickState, this);
+
+        this.text = this.add.text(0, 0);
+        this.dumpJoyStickState();
+            this.joyStick.origin =(0,0);
+            console.log('solo una vez');
+            this.joyStick.x = this.cameras.main.midPoint.x 
+            this.joyStick.y = this.cameras.main.midPoint.y -2000
+
 
              /////////////////
              // Proyectiles
@@ -212,7 +236,7 @@ class GameScene extends Phaser.Scene {
     
         this.msg_girl = new MsgBox(this,'anim_msgbox',mensaje1 )
 
-
+        console.log(this.joyStick);
 
 /////////////////////
 /// ZOOM
@@ -228,11 +252,6 @@ class GameScene extends Phaser.Scene {
     this.sonido_helicoptero.loop = true;
 
    
-
-////////////////////
-/// CREA JOYSTICK
-    this.joystick = new Joystick(this,700,2300,'basePad');
-
 
     // this.cameras.main.startFollow(this.player)
 
@@ -323,6 +342,20 @@ handlePlayerEnemyCollision(p,e){
     e.explode()
     }
 
+    dumpJoyStickState() {
+        var cursorKeys = this.joyStick.createCursorKeys();
+        var s = 'Key down: ';
+        for (var name in cursorKeys) {
+            if (cursorKeys[name].isDown) {
+                s += name + ' ';
+            }
+        }
+        s += '\n';
+        s += ('Force: ' + Math.floor(this.joyStick.force * 100) / 100 + '\n');
+        s += ('Angle: ' + Math.floor(this.joyStick.angle * 100) / 100 + '\n');
+        this.text.setText(s);
+    }
+
  
     update(time, delta) { // tiempo desde que empezo el programa // delta desde el ultimo last frame cicle?
 
@@ -344,11 +377,17 @@ handlePlayerEnemyCollision(p,e){
 
 
 
-        ////// update del joystick
-                this.joystick.joystickUpdate(elzoom)
-               if (!this.input.activePointer.isDown){ this.joystick.isClicked = false}
+        this.updateJoystick(elzoom);
 
 
+        // this.msgbox.setPosition(posX_Msgbox, posY_Msgbox);
+        // this.msgbox.setScale(1/(1.5*elzoom))
+        // this.mensajeL1.setPosition( posX_Msg , posY_Msg);
+        // this.mensajeL1.setFontSize(40/(1.5*elzoom));
+        // this.mensajeL2.setPosition( posX_Msg , posY_Msg + (40*(1/elzoom*0.8)));
+        // this.mensajeL2.setFontSize(40/(1.5*elzoom));
+
+    
      
 
          if ( 900< this.player.x && this.player.x < 1040 && 1300 < this.player.y && this.player.y < 1425 && this.player.scale < 0.3)
@@ -379,6 +418,24 @@ handlePlayerEnemyCollision(p,e){
         })
 
     } //end update
+
+
+    updateJoystick(elzoom){
+
+        // var  posX_Msgbox = this.scene.cameras.main.midPoint.x  - (this.scene.cameras.main.displayWidth/2)  + 800 * (1/elzoom)
+        // var  posY_Msgbox = this.scene.cameras.main.midPoint.y  + (this.scene.cameras.main.displayHeight/2) - 125 * (1/elzoom)
+
+       
+
+        
+       
+    //      // //variables para el joystick
+    //      var posX_joystick = this.cameras.main.midPoint.x 
+    //      var posY_joystick = this.cameras.main.displayHeight - 50;
+    // // // asigno pos y escala al Joystick
+    //      this.joy.setPosition(posX_joystick, posY_joystick);
+    //      this.joy.setScale(2.5/(2.5*elzoom));
+    }
 
 
 } //end gameScene
