@@ -325,8 +325,9 @@ handlePlayerEnemyCollision(p,e){
 
  
     update(time, delta) { // tiempo desde que empezo el programa // delta desde el ultimo last frame cicle?
+      
 
-       
+
              if (850 < this.player.x && this.player.x < 999 && 1850 < this.player.y &&  this.player.y < 2008 && this.player.scale < 0.3)
                 { this.scene.start('RescateScene');}
            
@@ -345,7 +346,22 @@ handlePlayerEnemyCollision(p,e){
 
 
         ////// update del joystick
-                this.joystick.joystickUpdate(elzoom)
+
+              //if (this.game.input.pointer1.isDown){console.log('tocado');}
+
+                //detectar toques mobiles
+                var touchx = -1; var touchy = -1; //-1 es el valor de false, de que no se usa
+
+                console.log(this.game.input.pointers[1].position)
+                //console.log('world:'+this.game.input.pointers[1].worldX);
+                //console.log('down:'+this.game.input.pointers[1].downX);
+                if(this.game.input.pointers[1].isDown){
+                touchx = this.game.input.pointers[1].position.x; 
+                touchy = this.game.input.pointers[1].position.y;}
+
+
+
+                this.joystick.joystickUpdate(elzoom,touchx,touchy)
                if (!this.input.activePointer.isDown){ this.joystick.isClicked = false}
 
 
