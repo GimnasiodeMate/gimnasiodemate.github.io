@@ -355,9 +355,11 @@ handlePlayerEnemyCollision(p,e){
                // console.log(this.game.input.pointers[1].position)
                 //console.log('world:'+this.game.input.pointers[1].worldX);
                 //console.log('down:'+this.game.input.pointers[1].downX);
-                if(this.game.input.pointers[1].isDown){
+            if(this.game.input.pointers[1].isDown){
                 touchx = this.game.input.pointers[1].position.x; 
                 touchy = this.game.input.pointers[1].position.y;}
+
+            console.log("touchx:"+touchx);
 
 
 
