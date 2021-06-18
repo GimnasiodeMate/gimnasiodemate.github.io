@@ -192,6 +192,12 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
 }/// fin de create
 
 update() {
+            ////////////////////////////////
+            // por si estamos en un celular
+                var touchx = -1; var touchy = -1; //-1 es el valor de false, de que no se usa
+                if(this.game.input.pointers[1].isDown){
+                    touchx = this.game.input.pointers[1].position.x; 
+                    touchy = this.game.input.pointers[1].position.y;}
 
 
 
@@ -202,7 +208,7 @@ update() {
                 //////////////////
                 //joystick
                 var elzoom=1;
-                this.joystick.joystickUpdate(elzoom)
+                this.joystick.joystickUpdate(elzoom,touchx,touchy)
                if (!this.input.activePointer.isDown){ this.joystick.isClicked = false}
 
                     var potenciaX = this.joystick.potenciaX;
