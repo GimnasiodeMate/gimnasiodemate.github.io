@@ -352,7 +352,7 @@ handlePlayerEnemyCollision(p,e){
                 //detectar toques mobiles
                 var touchx = -1; var touchy = -1; //-1 es el valor de false, de que no se usa
 
-                console.log(this.game.input.pointers[1].position)
+               // console.log(this.game.input.pointers[1].position)
                 //console.log('world:'+this.game.input.pointers[1].worldX);
                 //console.log('down:'+this.game.input.pointers[1].downX);
                 if(this.game.input.pointers[1].isDown){
