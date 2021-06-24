@@ -61,7 +61,7 @@ class Joystick extends Entity {
    				rtnX = this.scene.input.mousePointer.x;	
    				rtnY =  this.scene.input.mousePointer.y; //version con mouseclick
 					}
-		console.log('rtnX:'+ rtnX)		
+			
 
    	let scrllX = this.scene.cameras.main.scrollX;
 		let scrllY = this.scene.cameras.main.scrollY;
@@ -102,6 +102,8 @@ class Joystick extends Entity {
    	
    	this.potenciaX = potenciaX
    	this.potenciaY = potenciaY
+
+   	
 
    } // fin de mueve mando
 

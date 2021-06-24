@@ -8,6 +8,7 @@ class GameScene extends Phaser.Scene {
 
     preload() {  // se carga antes de empezar el programa
 
+       
 
         this.cursors
         this.cameras.main.setBackgroundColor(0x00000)
@@ -326,6 +327,7 @@ handlePlayerEnemyCollision(p,e){
  
     update(time, delta) { // tiempo desde que empezo el programa // delta desde el ultimo last frame cicle?
       
+      
 
 
              if (850 < this.player.x && this.player.x < 999 && 1850 < this.player.y &&  this.player.y < 2008 && this.player.scale < 0.3)
@@ -355,7 +357,7 @@ handlePlayerEnemyCollision(p,e){
                 touchx = this.game.input.pointers[1].position.x; 
                 touchy = this.game.input.pointers[1].position.y;}
 
-            console.log("touchx:"+touchx);
+          
 
 
 

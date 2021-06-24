@@ -20,46 +20,78 @@ preload() {
         /// Preload imagenes
          this.load.image('plat_grande', '../assets/imgs/plat_grande.webp')
          this.load.image('cuerda', '../assets/imgs/cuerda.webp')
+         this.load.image('marco', '../assets/imgs/marco.webp')
 
+         this.load.image('sky1', '../assets/imgs/bkgnd/sky1.png')
+         this.load.image('nubes', '../assets/imgs/bkgnd/nubes.webp')
+         this.load.image('zacate', '../assets/imgs/bkgnd/zacate1.png')
+         this.load.image('montanas', '../assets/imgs/bkgnd/farMnt.webp')
+
+
+        this.load.image('arbol1', '../assets/imgs/arbol1.webp')
+        this.load.image('arbol2', '../assets/imgs/arbol2.webp')
+        this.load.image('arbol3', '../assets/imgs/arbol3big.webp')
+        this.load.image('arbol4', '../assets/imgs/arbol4.webp')
+        this.load.image('arbol5', '../assets/imgs/arbol5.webp')
+        this.load.image('arbol6', '../assets/imgs/arbol6.webp')
+        this.load.image('puente', '../assets/imgs/puente.webp')
+        this.load.image('mono',   '../assets/imgs/mono.webp')
+        
          //////////////////////////
          ///Preload Animacion
 
             this.load.atlas('heli_chiquitito', '../assets/sprites/HelicopteroAmarillo.png', '../assets/sprites/HelicopteroAmarillo.json')
-            this.load.atlas('explosion', '../assets/sprites/explosion.png', '../assets/sprites/explosion.json')
-            this.load.atlas('turist', '../assets/sprites/turist.png', '../assets/sprites/turist.json')
+            this.load.atlas('explosion', '../assets/sprites/explosion.png', '../assets/sprites/explosion.json');
+            this.load.atlas('turist', '../assets/sprites/turist.png', '../assets/sprites/turist.json');
+            this.load.atlas('lapa', '../assets/sprites/lapa.png', '../assets/sprites/lapa.json');
 
         ////////////////////////
         /// Preload Imagenes
 
         //this.load.image('miimagen2', '../assets/sprites/escritorio3.jpg')
-        this.load.image('marco', '../assets/imgs/marco.webp')
-       
-       
+
         
 } //end preload
 
-create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPlats');
+create() { 
+            //this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPlats');
           //  this.bola = this.physics.add.sprite(650,150, 'icono_eje');
-            this.fondo_pantalla.setScale(0.9)
+            //this.fondo_pantalla.setScale(0.1)
+
+           
+
+        ////////////////////////////////
+        // INICIALIZAR LA CAMARA
+
+
+            this.physics.world.bounds.width = 9600
+            this.physics.world.bounds.height = 800
+            this.cameras.main.setBounds(450, 0, 9600, 800)
+            this.cameras.main.setZoom(1)
+
+
+
+        ///////////////////////////////
+        // CREATE PLAYER
+
 
                       
             //////////////////////////
             /// evento del mouse
 
-              this.input.mouse.capture = true;
-
-
-          
+            this.input.mouse.capture = true;        
             this.enemy = new Enemy(this, 250,200, 'tpOffline',10 );
 
             //this.isaac = new Turista(this, 500,400, 'anim_msgbox' ); // el que cae
-            this.bola = new Turista(this, 500,340, 'turist');
+            this.isaac1 = new Turista(this, 4500,100, 'turist');
            
 
 
-            this.isaac2 = new Turista(this, 700,500, 'turist');
-            this.isaac3 = new Turista(this, 250,500, 'turist');
-            this.isaac4 = new Turista(this, 850,500, 'turist');
+            this.isaac2 = new Turista(this, 4700,100, 'turist');
+            this.isaac3 = new Turista(this, 250,100, 'turist');
+            this.isaac4 = new Turista(this, 850,100, 'turist');
+            this.lapa1 = new Pajaro(this, -30,200, 'lapa');
+            this.mono1 = new Enemigo(this, 3300,50,'mono');
             
 
 
@@ -67,47 +99,57 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
             /////////////////////////////
             /// Creando las Plataformas
 
-            this.plat1 = this.physics.add.staticImage(500, 501, 'plat_grande');
-            this.plat1.setImmovable();
-            this.plat1.setSize(130,5);
-            this.plat1.setOffset(15,18);
+            this.rescatePlat = this.physics.add.staticImage(1500, 801, 'plat_grande');
+            this.rescatePlat.setImmovable();
+            this.rescatePlat.setSize(130,5);
+            this.rescatePlat.setOffset(15,18);
 
 
 
 
-            this.plat2 = this.physics.add.staticImage(1200, 501, 'plat_grande');
+            this.plat2 = this.physics.add.staticImage(4200, 601, 'plat_grande');
             this.plat2.setImmovable();
             this.plat2.setSize(130,5);
             this.plat2.setOffset(15,18);
 
 
 
-            this.plat3 = this.physics.add.staticImage(800, 301, 'plat_grande');
+            this.plat3 = this.physics.add.staticImage(3800, 301, 'plat_grande');
             this.plat3.setImmovable();
             this.plat3.setSize(130,5);
             this.plat3.setOffset(15,18);
 
-            this.physics.add.collider(this.plat1, this.bola)
+
+           
 
 
             /////////////////////////////
             /// Creando jugador
 
-            this.mini_chopper = this.physics.add.sprite(1200,140, 'heli_chiquitito').setOrigin(0.5,0.6)
+            this.mini_chopper = this.physics.add.sprite(3200,140, 'heli_chiquitito').setOrigin(0.5,0.6)
             this.mini_chopper.setScale(0.2);
             this.mini_chopper.play('heliAterriza');
+            this.mini_chopper.body.setCollideWorldBounds(true)       //COLISIONES 
 
             this.mini_chopper.setCircle(160);
             //this.mini_chopper.setSize(250,250);
             this.mini_chopper.setOffset(0,10);
 
             //this.mini_chopper.setGravityY(100);
-            this.physics.add.collider(this.mini_chopper, this.bola)
-            this.physics.add.collider(this.mini_chopper, this.plat1)
-            this.physics.add.collider(this.mini_chopper, this.plat2)
+            this.physics.add.collider(this.mini_chopper, this.isaac1)
+            this.physics.add.collider([this.mini_chopper,this.mono1], this.plat2)
             this.physics.add.collider(this.mini_chopper, this.plat3)
+            this.physics.add.collider(this.mini_chopper, this.lapa1)
             this.velocityY = 0;
             this.velocityX = 0;
+
+            ////////////////////////
+            /// camara follow
+
+             console.log(this.cameras.main)
+             this.cameras.main.startFollow(this.mini_chopper, true, 0.8, 0.8) // LO SIGUE LA CAMARA
+
+
 
 
              /////////////////////////////
@@ -141,7 +183,7 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
     
         
        
-      //  this.angulo = Phaser.Math.Angle.Between(this.pegax, this.pegay,this.bola.x,this.bola.y)
+     
 
         this.angulo = (Math.PI/2)  // posicion actual de mecate1
         this.angulom2 = (Math.PI/4) // posicion actual de mecate2
@@ -162,6 +204,8 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
             this.mecate3 = this.add.rectangle(100, 100, 5, this.longitud, 0x2226ff).setOrigin(0);
             this.mecate4 = this.add.rectangle(100, 100, 5, this.longitud, 0x1116ff).setOrigin(0);
             this.mecate44 = this.add.rectangle(100, 100, 5, this.longitud, 0x1116ff).setOrigin(0);
+
+
         
         /////////////////////////////////////
         /// PARA EFECTO PENDULO
@@ -188,17 +232,105 @@ create() { this.fondo_pantalla = this.physics.add.staticImage(800, 401, 'fondoPl
         this.vel_ant_Y= 0;
         this.Heli_angulo = (2*Math.PI);
 
+
+        /////////////////////////////////
+        // que tal un fondo
+
+        this.fondo1 = this.add.tileSprite(0, 0, 9600, 606, 'sky1'); this.fondo1.setOrigin(0);
+        this.montana = this.add.tileSprite(0, 570, 9600, 119, 'montanas'); this.montana.scale = 1;
+        this.zacate = this.add.tileSprite(0, 700, 9600, 197, 'zacate'); // zacate repetido
+        this.zacate.setOrigin(0.5);
+        this.nubes1 = this.physics.add.staticImage(600,100, 'nubes');
+        this.puente = this.physics.add.staticImage(7000,500, 'puente');
+        this.nubes1.body.setSize(20,20)
+              
+        //VAMOS CON LOS ARBOLES
+        this.arbolZero = new Arbol(this,600,300,'arbol3'); // 
+        this.arbolDiez = new Arbol(this,this.physics.world.bounds.width-800,300,'arbol3');
+        this.arbolUno = new Arbol(this,4600,500,'arbol2');
+        this.arbolDos = new Arbol(this,5600,750,'arbol2');
+        this.arbolTres = new Arbol(this,3200,600,'arbol2');
+
+
+      
+        
+            
+        /// organiza los DEPTHS
+        this.fondo1.depth =-4;
+        this.nubes1.depth =-3;
+        this.montana.depth =-3;
+        this.zacate.depth =-1;
+
+       
+       
+        // establece bodies
+
+        // this.arbol0.setSize(50,800);
+
+        
+        //this.copaArbol0.setOrigin=(0,0);
+        
+    
+
+   // colliders de los arboles
+
+    // helicoptero con elementos mobiles
+       this.physics.add.collider( [this.mini_chopper],[this.isaac1,this.isaac2,this.isaac3,this.isaac4,this.mono1,this.lapa1])
+    // elementos fijos con mobiles
+         this.physics.add.collider( [   this.rescatePlat,
+                                        this.plat2,
+                                        this.plat3,
+                                        this.arbolUno, 
+                                            this.arbolUno.copaArbol, 
+                                            this.arbolUno.copaArbol2,
+                                        this.arbolDos, 
+                                        this.arbolTres, 
+                                            this.arbolTres.copaArbol, 
+                                            this.arbolTres.copaArbol2 
+                                    ],//elementos mobiles
+                                    [   this.mini_chopper,
+                                        this.isaac1,
+                                        this.isaac2,
+                                        this.isaac3,
+                                        this.isaac4,
+                                        this.mono1
+                                    ])
+
+
+
+
+   
+
+
+     
+
         
 }/// fin de create
 
 update() {
+
+
+
+
+
+
+
+               /////////////////////acomodar para abajo
+               //// paralax de las nubes
+              // this.nubes1.x = this.cameras.main.midPoint.x-50 
+             // this.nubes1.x = this.mini_chopper.x*0.95 
+
+                this.nubes1.x = this.cameras.main._scrollX+300*0.95 
+                this.montana.x = this.cameras.main._scrollX*0.90 
+                this.zacate.x = this.cameras.main._scrollX*0.5
+
+
             ////////////////////////////////
             // por si estamos en un celular
                 var touchx = -1; var touchy = -1; //-1 es el valor de false, de que no se usa
                 if(this.game.input.pointers[1].isDown){
                     touchx = this.game.input.pointers[1].position.x; 
                     touchy = this.game.input.pointers[1].position.y;}
-
 
 
 
@@ -225,7 +357,7 @@ update() {
                 this.elmecate2.updateMecate();
                     this.elmecate3.updateMecate();
 
-            this.bola.updateTurista();       
+            this.isaac1.updateTurista();       
             this.isaac2.updateTurista();        
             
             let velX =  this.mini_chopper.body.velocity.x;
@@ -234,8 +366,7 @@ update() {
           
             this.pegas[0] = this.mini_chopper.x ; this.pegas[1] = this.mini_chopper.y
 
-
-             
+          
 
 
             // this.mini_chopper.angle = this.mini_chopper.angle +=0.01; 
@@ -256,7 +387,7 @@ update() {
                 {   this.bum.explota();
                     this.explotado = true;
 
-                     console.log('KABUM!')}
+                  }
 
             if (this.explotado){
                  this.bum.alpha -= 0.01;
@@ -264,12 +395,13 @@ update() {
                  if (this.bum.scale > 6){this.bum.destroy()} 
             }
 
+            ////////////////////////
+            /// la lapa se mueve
+           this.lapa1.updateLapa();
+
+
+
 }      //final del update     final del update    final del update     final del update    final del update     final del update    final del update     final del update
-
-
-
-
-
 
 
 
@@ -278,7 +410,7 @@ manejaHelic(potenciaX,potenciaY){
 
     // let velX =  this.mini_chopper.body.velocity.x;
     // let velY =  this.mini_chopper.body.velocity.y;
-    console.log('aqui empezamos');
+    
 
                 if (potenciaX != 0 || potenciaY != 0){ //empezamos a movernos
 
@@ -286,7 +418,7 @@ manejaHelic(potenciaX,potenciaY){
                     if (potenciaY>0){this.mini_chopper.body.velocity.y -= potenciaY*0.05} 
                     if (potenciaY<0){this.mini_chopper.body.velocity.x += potenciaX*0.05}
                     if (potenciaY>0){this.mini_chopper.body.velocity.x += potenciaX*0.05}
-                        console.log(this.mini_chopper.y)
+                       
                     }       
                         
 //                         /////////////////////// arriba abajo
@@ -366,6 +498,63 @@ ubicabola(){
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////// clase mecate
 
+class Arbol extends Entity{
+    constructor(scene, x,y,textureKey){
+          super(scene,x,y,textureKey,'Arbol')
+
+          this.x = x;
+          this.y = y;
+          this.textureKey = textureKey;
+          this.body.immovable = true;
+          this.depth = -2;
+          this.setImmovable;
+         let U = this.height/100;
+           
+    //Generamos los bodies para que colisione
+
+     this.body.setSize(this.width/6 ,this.height);
+     this.copaArbol = new CopaArbol(this.scene, this.x,this.y-(this.height/4),'this.textureKey')
+     this.copaArbol2 = new CopaArbol(this.scene, this.x,this.y-(this.height/4),'this.textureKey')
+     this.copaArbol.body.setSize(this.width/1.5,this.height/6);
+
+     //ahora establezco los colliders   collideWorldBounds
+     this.scene.physics.add.collider(this.scene.mini_chopper , [this,this.copaArbol,this.copaArbol2] );
+    
+     /// tengo arboles diferentes
+     if (this.textureKey == 'arbol2')
+        {  this.body.setSize(this.width/6,this.height*0.5);
+            this.copaArbol2.body.setSize(this.width/3,this.height/6);
+            this.copaArbol.body.setSize(this.width/3,this.height/10);
+            this.copaArbol.x = this.x-(U*15), this.copaArbol.y = this.y-(18*U);
+            this.copaArbol2.x = this.x+(17*U); this.copaArbol2.y = this.y-(36*U);
+            console.log('tuneando')}
+
+
+
+
+
+        }// fin del constructor
+
+}//////////////////////////////////////////////////// fin de Arbol
+
+    class CopaArbol extends Entity{
+        constructor(scene, x,y,textureKey){
+              super(scene,x,y,textureKey,'CopaArbol')
+
+              this.x = x;
+              this.y = y;
+              this.textureKey = textureKey;
+              this.visible = false;
+              this.body.immovable = true;
+
+        }// fin del constructor
+
+}//////////////////////////////////////////////////// fin de CopaArbol
+
+
+
+
+
 
 class Explosion extends Entity{
     constructor(scene, x,y,textureKey){
@@ -400,7 +589,7 @@ class Explosion extends Entity{
             this.y = this.scene.mini_chopper.y;
             this.visible = true;
             this.anims.play('explota');
-            console.log('cuantas veces?')
+          
             this.scene.mini_chopper.visible=false;
            
         }
@@ -421,6 +610,8 @@ class Mecate extends Entity{
         this.setScale(0.5)
         this.px = px;
         this.py = py; 
+        this.ganchox = 0;
+        this.ganchoy = 0;
        
 
        // this.pic = this.scene.physics.add.staticImage(this.x, this.y, this.skin);
@@ -488,26 +679,11 @@ class Mecate extends Entity{
     this.scene.pegas[this.px+2]= this.x-finalx
     this.scene.pegas[this.py+2]= this.y+finaly
 
+    this.ganchoy=this.y+finaly;
+    this.ganchox=this.x+finalx;
                                                 
           
   } // final de UPDATE()
   }//final class mecate
 
-    // let newY = Math.cos(this.angulo)*this.longitud
-    // let newX = Math.sin(this.angulo)*this.longitud
-    // this.mecate2.x = this.pegax-newX
-    // this.mecate2.y = this.pegay+newY
-
-
-
-
-    // ////////////////////////////////////// mecate 3 esta en la misma X y justo debajo en Y
-    // //este es el valor de referencia de movimiento
-    // this.mecate3.x = this.mecate2.x
-    // this.mecate3.y =  this.mecate2.y + this.longitud
-
-
-    // newY = Math.cos(this.angulom3)*this.longitud
-    // newX = Math.sin(this.angulom3)*this.longitud
-    // this.mecate4.x = this.mecate3.x-newX
-    // this.mecate4.y = this.mecate3.y+newY
+   

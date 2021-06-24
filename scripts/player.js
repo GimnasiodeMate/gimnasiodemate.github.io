@@ -239,6 +239,9 @@ class Player extends Entity {
         }
 
          efectos_de_sonido(this.scale, this.scene);
+       
+         //if (valAbsoluto(potenciaX) > 1){this.scene.cameras.zoo}
+
 	}/// Fin de UPDATE
 
 
