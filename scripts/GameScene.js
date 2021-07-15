@@ -18,29 +18,30 @@ class GameScene extends Phaser.Scene {
         // PRELOAD  TILEMAPS
  
             this.load.image('mapatico_tiles', '../assets/imgs/tilemaps/CostaRicaMap2.png')
+            this.load.image('mapita', '../assets/imgs/tilemaps/MapCostaRica.webp')
             this.load.tilemapTiledJSON('map', '../assets/sprites/Tilemap/CostaRicaMap2.json')
 
 
         //////////////////////////////
         // PRELOAD AUDIO FILES   
  
-             this.load.audio('sonido_helicoptero','../assets/snds/helicoptero.mp3')
-
+            this.load.audio('sonido_helicoptero','../assets/snds/helicoptero.mp3')
+            
+           
         /////////////////////////////////////
         // PRELOAD SPRITESHEETS ANIMACIONES  
 
            
-            this.load.atlas('animHelicoptero', '../assets/sprites/helic.png', '../assets/sprites/helic.json')
+            this.load.atlas('animHelicoptero', '../assets/sprites/chopper.webp', '../assets/sprites/chopper.json')
             this.load.atlas('anim_msgbox', '../assets/sprites/boss.png', '../assets/sprites/boss.json')
 
 
          //////////////////////////////
         // PRELOAD del juego anterior        
-            this.load.atlas('tpOffline', '../assets/sprites/skeleton.png', '../assets/sprites/skeleton.json')
+           
             this.load.image('bullet', '../assets/bullet.png')
             this.load.image('particle', '../assets/particle.png')
-          
- 
+           
          //////////////////////////////
         // PRELOAD IMAGENES ESTATICAS
 
@@ -105,33 +106,41 @@ class GameScene extends Phaser.Scene {
     create() {
     //if (!game.device.desktop){ game.input.onDown.add(gofull, this); } //go fullscreen on mobile devicesd
     this.game.scale.refresh();
+    this.primeraVez = true;
+    this.lugarAterrizaje;
+    this.escenariodejuego;
 
 
         /////////////////////////////////////
         // CREANDO EL TILEMAP 
 
-            const map = this.make.tilemap({key: 'map'})
 
-            const mapatico = map.addTilesetImage('sheetsmapa1','mapatico_tiles')
-            /// despliego las capas
-                const capaMar = map.createStaticLayer('Mar', mapatico, 0, 0)
-                const capaMapa = map.createStaticLayer('MapaOk', mapatico, 0, 0)
+            this.mapatico = this.physics.add.staticImage (0,0,'mapita');
+            this.mapatico.setOrigin(0);
+            this.mapatico.setScale(2.5);
+
+             // const map = this.make.tilemap({key: 'map'})
+
+            // const mapatico = map.addTilesetImage('sheetsmapa1','mapatico_tiles')
+            // /// despliego las capas
+                //  const capaMar = map.createStaticLayer('Mar', this.mapatico, 0, 0)
+                // const capaMapa = map.createStaticLayer('MapaOk', this.mapatico, 0, 0)
 
 
         ////////////////////////////////
         // INICIALIZAR LA CAMARA
 
 
-            this.physics.world.bounds.width = map.widthInPixels
-            this.physics.world.bounds.height = map.heightInPixels
-            this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
-            this.cameras.main.setZoom(1)
+            this.physics.world.bounds.width = 2313*2.5;
+            this.physics.world.bounds.height = 1584*2.5; //multiplico por la escala;
+            this.cameras.main.setBounds(0, 0,2313*2.5, 1584*2.5)
+            this.cameras.main.setZoom(0.5)
          
 
         ///////////////////////////////
         // CREATE PLAYER
          
-            this.player = new Player(this,200,2420, 'animHelicoptero',100)
+            this.player = new Player(this,490,1900, 'animHelicoptero',100)
             this.player.body.setCollideWorldBounds(true)       //COLISIONES 
             this.cameras.main.startFollow(this.player, true, 0.8, 0.8) // LO SIGUE LA CAMARA
      
@@ -139,30 +148,15 @@ class GameScene extends Phaser.Scene {
         ///////////////////////////////
         // CREATE ENEMY
 
-            this.enemy = new Enemy(this, 250,200, 'tpOffline',50, 'wandering50');
-            //   this.physics.add.collider(this.enemy, worldLayer)
-            this.enemy.body.setCollideWorldBounds(true)
+           
 
-            this.enemy2 = new EnemyFollow(this, 350,250, 'tpOffline',50, 'follow').setTint(0x00ff00)
-             //   this.physics.add.collider(this.enemy2, worldLayer)
-                this.enemy2.body.setCollideWorldBounds(true)
 
-            this.enemies = this.add.group() // son como arregloss
-            for (let i = 0; i< 40; i++){
-                const e = new Enemy(this, Math.floor(Math.random()*400) , Math.floor(Math.random()*400), 'tpOffline',10, 'wandering10')
-                e.body.setCollideWorldBounds(true)
-                e.setTint(0x9999ff)//lo pinta de azul
-                this.enemies.add(e) // este es como el push
-            }
             //     this.physics.add.collider(this.enemies, worldLayer)
     
             ///////////////////////////////////////////
             // COLISIONES DE LOS ENEMIGOS CON EL PLAYER
 
-             this.physics.add.overlap(this.player, this.enemies, this.handlePlayerEnemyCollision, null, this) //this es la escena
-             this.physics.add.overlap(this.player, this.enemy, this.handlePlayerEnemyCollision, null, this)
-             this.physics.add.overlap(this.player, this.enemy2, this.handlePlayerEnemyCollision, null, this)
-
+          
 
              //////////////////////////
              //healthbar
@@ -176,10 +170,9 @@ class GameScene extends Phaser.Scene {
              //INPUT
                 this.keys = this.input.keyboard.addKeys({space:'SPACE' })
                 this.proyectiles = new Proyectiles(this)
-                this.physics.add.collider(this.proyectiles,  mapatico, this.handleProyectileWorldCollision, null, this)
-                this.physics.add.overlap(this.proyectiles, this.enemies, this.handleProyectileEnemyCollision, null, this)
-                this.physics.add.overlap(this.proyectiles, this.enemy2, this.handleProyectileEnemyCollision, null, this)
-                 this.physics.add.overlap(this.proyectiles, this.enemy, this.handleProyectileEnemyCollision, null, this)
+                this.physics.add.collider(this.proyectiles,  this.mapatico, this.handleProyectileWorldCollision, null, this)
+                           
+
 
             /////////////////////
             //// ANIMACION DE DESTRUCCION
@@ -217,7 +210,7 @@ class GameScene extends Phaser.Scene {
 
 /////////////////////
 /// ZOOM
-        let zoom =1
+        let zoom =0.5
         // zoom = 1/this.speed
 
        
@@ -227,7 +220,7 @@ class GameScene extends Phaser.Scene {
 /// efectos de sonido
     this.sonido_helicoptero = this.sound.add('sonido_helicoptero');
     this.sonido_helicoptero.loop = true;
-
+ // this.sonido_helicoptero = this.sound.add('gritomono');
    
 
 ////////////////////
@@ -326,22 +319,107 @@ handlePlayerEnemyCollision(p,e){
 
  
     update(time, delta) { // tiempo desde que empezo el programa // delta desde el ultimo last frame cicle?
-      
-      
+        
+        //REVISA QUE ESTE EN LA UBICACION CORRECTA Y SUFICIENTEMENTE ABAJO
 
 
-             if (850 < this.player.x && this.player.x < 999 && 1850 < this.player.y &&  this.player.y < 2008 && this.player.scale < 0.3)
-                { this.scene.start('RescateScene');}
+    console.log('x'+this.player.x);
+    console.log('y'+this.player.y);
+
+
+            if (3074 < this.player.x && this.player.x < 3674 && 1390 < this.player.y &&  this.player.y < 1790 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'SanJose';
+                    console.log('estoy en San Jose')
+                     this.scene.start('AterrizaScene');}
+
+
+
+
+
+            else if (1650 < this.player.x && this.player.x < 2050 && 935 < this.player.y &&  this.player.y < 1352 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'PaloVerde';
+                    console.log('estoy en Palo Verde')
+                     this.scene.start('AterrizaScene');}
+
            
 
+           else if (3700 < this.player.x && this.player.x < 4100 && 1935 < this.player.y &&  this.player.y < 2335 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'Chirripo';
+                    console.log('estoy en chirripo')
+                     this.scene.start('AterrizaScene');}
 
-        var elzoom =  this.cameras.main.zoom
-        if (this.player.speed == 200 && elzoom < 1){
-            elzoom *=1.01;}
-        if (this.player.speed > 200 && elzoom > 0.5){
-            elzoom *= 0.99;}    
+            else if (1100 < this.player.x && this.player.x < 1500 && 220 < this.player.y &&  this.player.y < 620 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'SantaRosa';
+                    this.scene.start('AterrizaScene');}
+
+
+
+            else if (2400 < this.player.x && this.player.x < 2700 && 800 < this.player.y &&  this.player.y < 1200 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'Arenal';
+                    console.log('estoy en arenal')
+                     this.scene.start('AterrizaScene');}
+
+
+          
+            else if (1201 < this.player.x && this.player.x < 1401 && 371 < this.player.y &&  this.player.y < 571 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'CanoNegro';
+                    console.log('estoy en cano negro') 
+                    this.scene.start('AterrizaScene');}
+
+            else if (3800 < this.player.x && this.player.x < 4200 && 3050 < this.player.y &&  this.player.y < 3450 && this.player.scale < 0.3)
+                {   this.lugarAterrizaje = 'Corcovado';
+                    console.log('estoy en corcovado');
+                    this.scene.start('AterrizaScene');}
+
+
+
+             if (220 < this.player.x && this.player.x < 620 && 2150 < this.player.y &&  this.player.y < 2450 && this.player.scale < 0.3)
+                {   console.log('estoy en la isla del coco');
+                    this.escenariodejuego = 1;
+                    this.scene.start('RescateScene');}
+
+             if (1795 < this.player.x && this.player.x < 2195 && 1750 < this.player.y &&  this.player.y < 2150 && this.player.scale < 0.3)
+                {   console.log('estoy en la isla del caboblanco');
+                    this.escenariodejuego = 'PaloVerde';
+                    this.scene.start('RescateScene');}
+
+
+
+
+
+
+
+
+            // console.log('x :'+ this.player.x);
+            // console.log('y :'+ this.player.y); 
+
+        // MANEJA LOS ZOOM
+
+        // SI VELOCIDAD ES CERO ENTONCES ZOOM DISMINUYE
+
+        // SI ESCALA ES PEQUEÑA ENTONCES NO SE MUEVA
+
+
         
+      
+        var elzoom =  this.cameras.main.zoom
+
+        // if (this.player.speed < 200 && elzoom < 0.6){
+        //     elzoom *=1.01;}
+        // if (this.player.speed > 200 && elzoom > 0.1){
+        //     elzoom *= 0.99;}    
+         
+        
+        if (!this.player.subiendo && elzoom<0.6 ) {elzoom*=1.005;}
+        if (this.player.subiendo && elzoom>0.4) {elzoom*=0.995;}
+          
+
+          
+
          this.cameras.main.setZoom(elzoom)
+     // console.log('elzoom:'+ elzoom)
+     // console.log('zoom player:'+ this.player.scale);
+     // console.log(this.player.body.acceleration);
 
         this.msg_girl.update_Msg_Pos(elzoom); // actualiza la posicion
 
@@ -369,6 +447,9 @@ handlePlayerEnemyCollision(p,e){
 
          if ( 900< this.player.x && this.player.x < 1040 && 1300 < this.player.y && this.player.y < 1425 && this.player.scale < 0.3)
             { this.scene.start('AterrizaScene');} // PARA LLAMAR NUEVA ESCENA
+
+
+
 //924 1375
         
         if (this.keys.space.isDown){
@@ -385,14 +466,11 @@ handlePlayerEnemyCollision(p,e){
 
         this.player.update();
    
-        if(!this.enemy.isDead){ this.enemy.update();} 
 
-        if(!this.enemy2.isDead){ this.enemy2.update(this.player.body.position);} 
+
+
       
-        this.enemies.children.iterate((child) =>{ // el grupo esta conformado por enemies que son children
-        if (!child.isDead){ child.update();} 
-         // va por cada child y le da update como si le dieramos enemy.update a c/u
-        })
+
 
     } //end update
 

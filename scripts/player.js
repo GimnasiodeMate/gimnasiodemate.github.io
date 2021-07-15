@@ -5,12 +5,14 @@ class Player extends Entity {
 		super(scene,x,y,textureKey,'Player')
 
 
-		const animFrameRate = 10
+		const animFrameRate = 20
 		const anims = scene.anims
         this.health = health
+        this.setScale =(0.5);
         this.facing= 'down'
         this.speed = 200;
-        this.velocidades = [0.05,0.05,0.2]
+        this.velocidades = [0.03,0.03,0.25]
+        this.status = false;
         
 
 
@@ -20,8 +22,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 12,
-                end: 17,
+                start: 4,
+                end: 6,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -34,8 +36,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 18,
-                end: 23,
+                start: 8,
+                end: 10,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -48,8 +50,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 6,
-                end: 11,
+                start: 11,
+                end: 13,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -62,8 +64,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 0,
-                end: 5,
+                start: 4,
+                end: 6,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -75,8 +77,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 2,
-                end: 2,
+                start: 4,
+                end: 6,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -88,8 +90,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 18,
-                end: 18,
+                start: 8,
+                end: 10,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -101,8 +103,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 12,
-                end: 12,
+                start: 4,
+                end: 6,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -114,8 +116,8 @@ class Player extends Entity {
                 frames: anims.generateFrameNames(this.textureKey,{
                 prefix: '',
                 suffix:'',
-                start: 6,
-                end: 6,
+                start: 11,
+                end: 13,
                 zeroPad: 3 //cuantos espacios de numero tiene 01, 02, 03 etc
             }),
             frameRate: animFrameRate,
@@ -158,14 +160,17 @@ class Player extends Entity {
 
 
         if (potenciaX != 0 || potenciaY !=0) { // alguien esta movieno el joystick
+                this.subiendo = true;
+                if (this.scale < 0.8){this.scale =(despegar(this.scale));} // si esta chiquitito solo crezca
+                if (0.4 < this.scale){   velocidadActual = acelera(this.velocidades[1],this.velocidades[2]);
+                    //si esta mas grande que 0.4 empieza a moverse
 
-                if (this.scale < 1.5){this.scale *= 1.02}
-                if (0.5 < this.scale){   velocidadActual = acelera(this.velocidades[1],this.velocidades[2]);
-                                  
-                                    this.velocidades[1] = velocidadActual;
-                                    this.x += potenciaX * velocidadActual;//vel actual
-                                    this.y -= potenciaY * velocidadActual;}
-        }else{this.velocidades[1]=this.velocidades[0]}
+                    this.velocidades[1] = velocidadActual;
+                    this.x += potenciaX * velocidadActual;//vel actual
+                    this.y -= potenciaY * velocidadActual;}
+        }else{this.velocidades[1]=this.velocidades[0];
+             this.subiendo = false; }
+            // si sueltan el mouse entonces se resetea la velocidad
 
         
         const {keys} = this //output: this.keys
@@ -175,42 +180,29 @@ class Player extends Entity {
        // this.body.setVelocity(0)
         //movement
 
-        if (keys.left.isDown || keys.a.isDown) {
-           this.scale = despegar(this.scale);
-           if (0.5 < this.scale){   this.speed = acelera(this.speed);
-                                    this.body.setVelocityX(-this.speed)}
-           
-           
-        } else if (keys.right.isDown || keys.d.isDown) {
-             this.scale = despegar(this.scale);
-            if (0.5 < this.scale){  this.speed = acelera(this.speed);
-                                    this.body.setVelocityX(this.speed);}
-        }
-
-        if (keys.up.isDown || keys.w.isDown) {
-            this.scale = despegar(this.scale);
-            if (0.5 < this.scale){  this.speed = acelera(this.speed);
-                                    this.body.setVelocityY(-this.speed)}
-            
-        } else if (keys.down.isDown || keys.s.isDown) {
-            this.scale = despegar(this.scale);
-            if (0.5 < this.scale){  this.speed = acelera(this.speed);
-                                    this.body.setVelocityY(this.speed)}
-            
-        }
-
         this.body.velocity.normalize().scale(this.speed)
 
         //animations
 
 
         if (valAbsoluto(potenciaY) > 0) {
-           
-
-           
+      
+          
             if (valAbsoluto(potenciaX) > valAbsoluto(potenciaY)){  
-                    if (potenciaX>0){ this.anims.play('Derecha', true)}else{this.anims.play('Izquierda', true)}
-            }else   if (potenciaY>0){ this.anims.play('Arriba',  true)}else{ this.anims.play('Abajo', true)}
+                    if (potenciaX>0){   // nos movemos hacia la derecha
+                                        this.anims.play('Derecha', true)
+                                        this.setRotation(3.14/2);
+
+                                             }else{  //nos movemos hacia la izquierda
+                                                    this.anims.play('Izquierda', true);
+                                                    this.setRotation(-3.14/2);
+                                                    
+                                                     }
+            }else   if (potenciaY>0){ this.anims.play('Arriba',  true);
+                                      this.setRotation(0);
+                                    }else{ this.anims.play('Abajo', true);
+                                              this.setRotation(0);
+                                            }
             
            }else { // si no hay potencia... aterrice
           
@@ -256,7 +248,8 @@ class Player extends Entity {
     }
 
     function aterriza(escala){
-        if (0.15 < escala){escala *=0.99}
+        if (0.15 < escala){escala *=0.99
+        }
                     return escala}
         
     function despegar(escala){

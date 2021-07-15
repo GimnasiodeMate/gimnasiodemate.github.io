@@ -14,9 +14,14 @@ preload() {
 
         ////////////////////////
         /// Preload Fondos
-         this.load.image('SantaRosa', '../assets/imgs/bkgnd/SantaRosa2.webp')
-         this.load.image('nubes', '../assets/imgs/bkgnd/clouds.png')
-         this.load.image('sombra', '../assets/imgs/shadow.webp')
+        this.load.image('SantaRosa', '../assets/imgs/bkgnd/SantaRosa2.webp')
+        this.load.image('Arenal', '../assets/imgs/bkgnd/arenal.webp')
+        this.load.image('SanJose', '../assets/imgs/bkgnd/ElCoco.webp')
+        this.load.image('Corcovado', '../assets/imgs/bkgnd/corcovado.webp')
+        this.load.image('PaloVerde', '../assets/imgs/bkgnd/paloverde.webp')
+        this.load.image('Chirripo', '../assets/imgs/bkgnd/chirripo.webp')
+        this.load.image('nubes', '../assets/imgs/bkgnd/clouds.png')
+        this.load.image('sombra', '../assets/imgs/shadow.webp')
 
         ////////////////////////
         /// Preload Imagenes
@@ -32,18 +37,51 @@ preload() {
         /////////////////////////////////////
         // PRELOAD SPRITESHEETS ANIMACIONES  
 
-        this.load.atlas('heliAterriza', '../assets/sprites/HelicopteroAmarillo.png', '../assets/sprites/HelicopteroAmarillo.json')
-        this.load.atlas('caras', '../assets/sprites/caras.png', '../assets/sprites/caras.json')
+        //this.load.atlas('heliAterriza', '../assets/sprites/HelicopteroAmarillo.png', '../assets/sprites/HelicopteroAmarillo.json')
+        this.load.atlas('caras', '../assets/sprites/caras.webp', '../assets/sprites/caras.json')
 
 
 
 
         //////////////////////////////
-        /// Dialogos te texto
+        /// Dialogos te texto y expresiones
 
-        this.dialogo = ['Hola! ____¿Pura vida?___.___.____.____________________________________________\n¡Bienvenidos al Parque Nacional Santa Rosa! \n____________________________________________________llegan justo a tiempo....', 
-        'la llamada de auxilio llego...    __________________\n    hm_m_m________________   dejame ver... __________________\ndesde las coordenadas __-__-__>  _____ ( ___ 13__ ,_______________ 15 ) ',
-        'Los turistas son ___.___.____. Franceses\n______________________________ y hablan un poquito de Ingles \n____ pero nada de Espanol']
+        this.dialogo=[]; // aqui va el dialogo
+
+        this.dialogoSantaRosa = 
+        [   'Hola! ____¿Pura vida?'+
+            '___.___.____.____________________________________________\n'+
+            '¡Bienvenidos al Parque Nacional Santa Rosa! \n'+
+            '____________________________________________________'+
+            'llegan justo a tiempo....',
+            'la llamada de auxilio llego...    __________________\n'+
+            'hm_m_m________________   dejame ver... '+
+            '__________________\n'+
+            'desde las coordenadas __-__-__>'+
+            '  _____ ( ___ 13__ ,_______________ 15 ) ',
+        'Los turistas son ___.___.____. Franceses\n______________________________ y hablan un poquito de Ingles \n____ pero nada de Espanol'];
+
+        this.dialogoArenal = 
+        ['Hola,_________________ Bienvenido al Parque Nacional Volcan Arenal... \n____________________________________________________', 
+        'Jue pucha, ___.___.___.____\n¡Que dicha que llegaron!______________ \n tenemos horas buscando a esa gente ________________________',
+        'son unos turistas rusos ______________________\n Locos por los tucanes! ______________________ \n ya salieron todos menos uno... ______________________________',
+        'sospecho que se salió del sendero\n ____ siguiendo el canto del tucan.... ______________________ \n(juepucha mas tonto!) ',
+         'encontramos unas huellas ______________\nen el sector de las coladas de lava,\n entonces apuesto que esta por esa zona',
+         '!vaya con cuidado __________________, mucha suerte!'];
+
+         this.emocionesArenal = ['contento','sorprendido','desanimado','feliz','contento','feliz'];
+
+
+         this.dialogoPaloVerde = 
+        ['Dios mio,_________________ ya era hora!.. \n____________________________________________________por cierto ___.___.___.____, Bienvenidos a Palo Verde', 
+        ' y al majestuoso Rio Tempisque!______________  \n Hoy temprano vinieron unos Suizos ______________________\n Segun ellos expertos en Kayak ______________________ ',
+        ' la verdad no se veian muy muy...______________________________\n salieron del sector Norte_____ e iban Rio arriba',
+        ' ____ la lancha de rescate encontro el Kayak.... ______________________ \nPero no a los Suizos ',
+        'solo esperemos que los Cocodrilos..... \n no hayan almorzado Turistas Suizos hoy_______________\n JAJAJAJAJA!__________  es broma... recibimos una llamada',
+         'estan a unos 5 km al norte de Puerto Humo __________________,\n pero no logran salir_______________\n, Ja!.... ____________ Expertos'];
+
+         this.emocionesPaloVerde = ['contento','sorprendido','sorprendido','desanimado','feliz','contento','feliz'];
+
 
         
 } //end preload
@@ -51,17 +89,25 @@ preload() {
 create() {
         /////////////////////////////////
         ////
-        this.cielo_Aterriza = this.physics.add.staticImage(800, 200, 'nubes');
+        this.cielo_Aterriza = this.physics.add.staticImage(0, 0, 'nubes');
+        this.cielo_Aterriza.setOrigin(0,0);
         this.cielo_Aterriza.setScale(1.5);
+        //this.cielo_Aterriza.setScale(1.5);
 
-        this.heli = new HeliAterriza(this, 850,100, 'heliAterriza');
-        this.heli.setScale(0.05);
+        this.heli = new HeliAterriza(this, 850,100, 'animHelicoptero');
+
+        this.heli.setScale(0.2);
+        this.heli.scaleX=-0.2;
         this.heli.play('heliAterriza');
+        this.heli.setDepth(3);
 
-        this.fondo_Aterriza = this.physics.add.staticImage(780, 500, 'SantaRosa');
-        this.fondo_Aterriza.setScale(1.4);
-        this.sombra_dialogo = this.physics.add.staticImage(760, 1000, 'sombra');
-        this.sombra_dialogo.setScale(2);
+        var lugarAterrizaje = this.game.scene.scenes[0].lugarAterrizaje 
+        this.fondo_Aterriza = this.physics.add.staticImage(780, 500, lugarAterrizaje);
+
+        
+        
+        this.sombra_dialogo = this.physics.add.staticImage(780, 1000, 'sombra');
+        this.sombra_dialogo.setScale(2.1);
         this.aterrizo = false
    
          this.cara = new AnimaAvatar(this, 430,1000, 'caras');
@@ -74,12 +120,33 @@ create() {
         this.marco.setScale(1)
        
 
-        this.pasosMsgBox = [false,false,false,false,false]
-        //[d.horizontal,d.vertical,sombra,marco,mensaje1]
+        this.pasosMsgBox = [false,false,false,false,false] // controla los eventos
+        //[aterriza,sombra,marco,mensaje1]
+        this.listoAterriza = false;
+        this.listoSombra = false;
+        this.listoMarco = false;
+        this.listoDialogo = false;
+        this.listoEstaLinea = false;
+
         this.contador_Letras = 0;
         this.maquina_escribiendo = false
         this.escribiendo = this.dialogo[0]
         this.contemos = 0
+        
+    ////////////////////////////////////////////////////////////////////////
+    /// Dependiendo de la escena
+
+    if (lugarAterrizaje == 'Arenal'){this.dialogo = this.dialogoArenal ; this.emociones = this.emocionesArenal;}
+    else if (lugarAterrizaje == 'SantaRosa'){this.dialogo = this.dialogoSantaRosa}
+    else if (lugarAterrizaje == 'PaloVerde'){this.dialogo = this.dialogoPaloVerde; this.emociones = this.emocionesPaloVerde;}
+    else if (lugarAterrizaje == 'SanJose'){this.dialogo = this.dialogoSanJose}
+    else if (lugarAterrizaje == 'Chirripo'){this.dialogo = this.dialogoChirripo}
+    else if (lugarAterrizaje == 'Corcovao'){this.dialogo = this.dialogoCorcovado}
+    else (this.dialogo=this.dialogo1);
+
+    this.cuantasLineas = this.dialogo.length;
+    this.lineaActual = 0;
+
 
  } //end create
 
@@ -88,9 +155,13 @@ create() {
      //
     this.aterriza();
     
-    if (this.pasosMsgBox[0]){  this.muestrasombra();}
-    if (this.pasosMsgBox[1]){ this.muestramarco();}
-    if (this.pasosMsgBox[2]) { this.despliegaLineas();}
+    if (this.listoAterriza){  this.muestrasombra();}
+    if (this.listoSombra){ this.muestramarco();}
+    if (this.listoMarco && !this.listoDialogo) { this.despliegaLineas();}
+
+
+
+
 
 
  }//end update
@@ -100,33 +171,40 @@ create() {
  
     aterriza() { // tiempo desde que empezo el programa // delta desde el ultimo last frame cicle?
     { 
-       if (this.heli.x >100){ this.heli.x-=1.5;}
-            else{if (this.heli.y < 445)
-                {   this.heli.y+=0.8; 
-                    this.heli.scale *=1.0005;
-                    if(this.heli.rotation < 0) {this.heli.rotation += 0.001;}
-                }else{this.pasosMsgBox[0]=true}
+       if (this.heli.x >200){ this.heli.x-=1.5; this.heli.setRotation(-0.3)} //muevase en el horizonte
+            else{if (this.heli.y < 625) // ahora baje y crezca
+
+                {   this.heli.y+=0.8;
+                
+                    if (this.heli.scaleX < 0){this.heli.setRotation(0.3);this.heli.scaleX *=-1, this.heli.scaleY *=1; }
+                    if(this.heli.rotation>0.001){this.heli.rotation *= 0.99;}else{}
+                    this.heli.scaleX *=1.0015;
+                    this.heli.scaleY *=1.0015;
+                    //if(this.heli.rotation < 0) {this.heli.rotation += 0.001;}
+                }else{this.listoAterriza=true}
                 }
 
-       if (this.heli.scale < 0.3){this.heli.scale *=1.005; this.heli.rotation = -.15;}
+       //if (-0.3 > this.heli.scale && this.heli.scale < 0.3){this.heli.scale *=1.005; this.heli.rotation = -.15;}
     } } 
+
+
 
     muestrasombra()
     {      if (this.sombra_dialogo.y > 610) {this.sombra_dialogo.y -= 5}
-            else{this.pasosMsgBox[1]=true}}
+            else{this.listoSombra=true}}
 
     muestramarco()
     {      if (this.cara.y > 690) {this.cara.y  -= 5
                                    this.marco.y -= 5}
-                                   else{this.pasosMsgBox[2]=true}}
+                                   else{this.listoMarco=true}}
 
     
     despliegaLineas(){
         
-        if (!this.pasosMsgBox[3]){this.letra_por_letra(this.dialogo[0]);   this.cara.play('contento'); 
-        }else if (!this.pasosMsgBox[4]){this.letra_por_letra(this.dialogo[1]);this.cara.play('sorprendido');
-        }else if (!this.pasosMsgBox[5]){this.letra_por_letra(this.dialogo[2]);this.cara.play('desanimado');
-        }else{this.cara.play('feliz');}
+        if (!this.listoEstaLinea){this.letra_por_letra(this.dialogo[this.lineaActual]);   this.cara.play(this.emociones[this.lineaActual]); }
+       
+
+       else{this.cara.play('feliz');}
     // aqui vamos a recorrer el arreglo para    
     }
        
@@ -162,13 +240,15 @@ create() {
                     
                                     
 
-    
+    console.log(this.listoDialogo);
     if (this.contador_Letras == this.escribiendo.length) //cuando ya termino
-    {   
-        this.time.addEvent({ delay: 2500, callback:()=>{
-                            if (!this.pasosMsgBox[3]){this.pasosMsgBox[3]=true;console.log('primera linea lista')} // ya termine esta linea
-                    else    if (!this.pasosMsgBox[4]){this.pasosMsgBox[4]=true;console.log('segunda linea lista')}
-                    else    if (!this.pasosMsgBox[5]){this.pasosMsgBox[5]=true;console.log('tercera linea lista')}
+    {   console.log(this.dialogo.length);
+         {if (this.dialogo.length>this.lineaActual+1){
+                this.lineaActual+=1;console.log('primera linea lista')}else{this.listoDialogo=true;} // ya termine este  dialogo
+                console.log('lineaActual:'+ this.lineaActual);
+               }
+        
+        this.time.addEvent({ delay: 2500, callback:()=>{ // aqui estoy gestionando las   
                                                        this.maquina_escribiendo = false;
                                                        this.contador_Letras=0; // arreglar esto   
                                                        this.mensajeL1.destroy(); 
@@ -232,13 +312,7 @@ class AnimaAvatar extends Entity{
 /// contento
         anims.create({
                 key: 'contento',
-                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "3", "3", "3", "3", "3", "3", "3", "3", "3",
-                                                                             "3", "3", "3", "3", "3", "3", "3", "3", "3",
-                                                                             "4","5","6","3","4","5","6","3","3", "3", "3",
-                                                                             "3", "3", "3", "3", "3", "3","3", "3", "3",
-                                                                             "3", "3", "3", "3", "3", "3", "3", "3", "3",
-                                                                             "3", "3", "3", "3", "3", "3", "3", "3", "3",
-                                                                             "4","5","6","3","4","5","6","3"] }),
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "00","00","00", "01","01","01","07","07","17"] }),
                 frameRate: animFrameRate,
             repeat: -1
         })
@@ -246,11 +320,7 @@ class AnimaAvatar extends Entity{
 /// feliz
         anims.create({
                 key: 'feliz',
-                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "0","0","0","0","0","0","0","0","0","0","0",
-                                                                            "0","1","2","0","1","2","0","1","2","0","0",
-                                                                            "0","0","0","0","0","0","0","0","0",
-                                                                            "0","0","0","0","0","0","0","0","0",
-                                                                            "0","1","2","0","1","2","0","1","2",] }),
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [  "00","00","00", "01","01","01","07","07","17"] }),
                 frameRate: animFrameRate,
             repeat: -1
         })
@@ -258,9 +328,7 @@ class AnimaAvatar extends Entity{
 /// desanimado
         anims.create({
                 key: 'desanimado',
-                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "10","10","10","10","10","10","10","10",
-                                                                              "10","10","10","10", "11", "12", "13",
-                                                                              "12","11","10"] }),
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [  "00","00","00", "01","01","01","07","07","17"] }),
                 frameRate: animFrameRate,
             repeat: -1
         })
@@ -269,7 +337,7 @@ class AnimaAvatar extends Entity{
 /// sorprendido
         anims.create({
                 key: 'sorprendido',
-                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "7"] }),
+                frames: anims.generateFrameNames(this.textureKey,{ frames: [ "07"] }),
                 frameRate: animFrameRate,
             repeat: -1
         })
